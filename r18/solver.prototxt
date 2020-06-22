@@ -1,0 +1,21 @@
+net: "r18_train_val.prototxt"
+#test_iter: 300
+#test_interval: 500
+test_iter: 1169
+test_interval: 1000
+iter_size: 4
+base_lr: 0.0001
+lr_policy: "multistep"
+gamma: 0.1
+
+stepvalue: 80000
+stepvalue: 140000
+stepvalue: 200000
+
+display: 1000
+max_iter: 260000
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 1000
+snapshot_prefix: "snapshots/"
+solver_mode: GPU

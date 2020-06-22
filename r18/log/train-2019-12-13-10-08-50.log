@@ -1,0 +1,4469 @@
+I1213 10:08:50.146755   363 caffe.cpp:218] Using GPUs 1
+I1213 10:08:50.203496   363 caffe.cpp:223] GPU 1: GeForce GTX 1080 Ti
+I1213 10:08:50.687927   363 solver.cpp:44] Initializing solver from parameters: 
+test_iter: 186
+test_interval: 1000
+base_lr: 0.0001
+display: 500
+max_iter: 60000
+lr_policy: "multistep"
+gamma: 0.1
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 1000
+snapshot_prefix: "snapshots/"
+solver_mode: GPU
+device_id: 1
+net: "r18_train_val.prototxt"
+train_state {
+  level: 0
+  stage: ""
+}
+stepvalue: 30000
+stepvalue: 50000
+stepvalue: 60000
+iter_size: 4
+I1213 10:08:50.688079   363 solver.cpp:87] Creating training net from net file: r18_train_val.prototxt
+I1213 10:08:50.689193   363 net.cpp:294] The NetState phase (0) differed from the phase (1) specified by a rule in layer data
+I1213 10:08:50.689252   363 net.cpp:294] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy
+I1213 10:08:50.689950   363 net.cpp:51] Initializing net from parameters: 
+state {
+  phase: TRAIN
+  level: 0
+  stage: ""
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    scale: 0.0078125
+    mirror: true
+    mean_value: 127
+  }
+  data_param {
+    source: "/home/lc/gender/dushanzi/data/train.lmdb"
+    batch_size: 16
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv0"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv0"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "bn0"
+  type: "BatchNorm"
+  bottom: "conv0"
+  top: "bn0"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "bn0_scale"
+  type: "Scale"
+  bottom: "bn0"
+  top: "bn0"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "relu0"
+  type: "ReLU"
+  bottom: "bn0"
+  top: "relu0"
+}
+layer {
+  name: "stage1_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "relu0"
+  top: "stage1_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn1"
+  top: "stage1_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage1_unit1_bn1"
+  top: "stage1_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv1"
+  top: "stage1_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn2"
+  top: "stage1_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage1_unit1_bn2"
+  top: "stage1_unit1_relu1"
+}
+layer {
+  name: "stage1_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage1_unit1_relu1"
+  top: "stage1_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv2"
+  top: "stage1_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn3"
+  top: "stage1_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "relu0"
+  top: "stage1_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv1sc"
+  top: "stage1_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_sc"
+  top: "stage1_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus0"
+  type: "Eltwise"
+  bottom: "stage1_unit1_bn3"
+  bottom: "stage1_unit1_sc"
+  top: "_plus0"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage1_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus0"
+  top: "stage1_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn1"
+  top: "stage1_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage1_unit2_bn1"
+  top: "stage1_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage1_unit2_conv1"
+  top: "stage1_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn2"
+  top: "stage1_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage1_unit2_bn2"
+  top: "stage1_unit2_relu1"
+}
+layer {
+  name: "stage1_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage1_unit2_relu1"
+  top: "stage1_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage1_unit2_conv2"
+  top: "stage1_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn3"
+  top: "stage1_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus1"
+  type: "Eltwise"
+  bottom: "stage1_unit2_bn3"
+  bottom: "_plus0"
+  top: "_plus1"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage2_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus1"
+  top: "stage2_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn1"
+  top: "stage2_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage2_unit1_bn1"
+  top: "stage2_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv1"
+  top: "stage2_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn2"
+  top: "stage2_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage2_unit1_bn2"
+  top: "stage2_unit1_relu1"
+}
+layer {
+  name: "stage2_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage2_unit1_relu1"
+  top: "stage2_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv2"
+  top: "stage2_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn3"
+  top: "stage2_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus1"
+  top: "stage2_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv1sc"
+  top: "stage2_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_sc"
+  top: "stage2_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus2"
+  type: "Eltwise"
+  bottom: "stage2_unit1_bn3"
+  bottom: "stage2_unit1_sc"
+  top: "_plus2"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage2_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus2"
+  top: "stage2_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn1"
+  top: "stage2_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage2_unit2_bn1"
+  top: "stage2_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage2_unit2_conv1"
+  top: "stage2_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn2"
+  top: "stage2_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage2_unit2_bn2"
+  top: "stage2_unit2_relu1"
+}
+layer {
+  name: "stage2_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage2_unit2_relu1"
+  top: "stage2_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage2_unit2_conv2"
+  top: "stage2_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn3"
+  top: "stage2_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus3"
+  type: "Eltwise"
+  bottom: "stage2_unit2_bn3"
+  bottom: "_plus2"
+  top: "_plus3"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage3_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus3"
+  top: "stage3_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn1"
+  top: "stage3_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage3_unit1_bn1"
+  top: "stage3_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv1"
+  top: "stage3_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn2"
+  top: "stage3_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage3_unit1_bn2"
+  top: "stage3_unit1_relu1"
+}
+layer {
+  name: "stage3_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage3_unit1_relu1"
+  top: "stage3_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv2"
+  top: "stage3_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn3"
+  top: "stage3_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus3"
+  top: "stage3_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv1sc"
+  top: "stage3_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_sc"
+  top: "stage3_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus4"
+  type: "Eltwise"
+  bottom: "stage3_unit1_bn3"
+  bottom: "stage3_unit1_sc"
+  top: "_plus4"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage3_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus4"
+  top: "stage3_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn1"
+  top: "stage3_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage3_unit2_bn1"
+  top: "stage3_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage3_unit2_conv1"
+  top: "stage3_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn2"
+  top: "stage3_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage3_unit2_bn2"
+  top: "stage3_unit2_relu1"
+}
+layer {
+  name: "stage3_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage3_unit2_relu1"
+  top: "stage3_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage3_unit2_conv2"
+  top: "stage3_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn3"
+  top: "stage3_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus5"
+  type: "Eltwise"
+  bottom: "stage3_unit2_bn3"
+  bottom: "_plus4"
+  top: "_plus5"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage4_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus5"
+  top: "stage4_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn1"
+  top: "stage4_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage4_unit1_bn1"
+  top: "stage4_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv1"
+  top: "stage4_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn2"
+  top: "stage4_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage4_unit1_bn2"
+  top: "stage4_unit1_relu1"
+}
+layer {
+  name: "stage4_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage4_unit1_relu1"
+  top: "stage4_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv2"
+  top: "stage4_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn3"
+  top: "stage4_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus5"
+  top: "stage4_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv1sc"
+  top: "stage4_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_sc"
+  top: "stage4_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus6"
+  type: "Eltwise"
+  bottom: "stage4_unit1_bn3"
+  bottom: "stage4_unit1_sc"
+  top: "_plus6"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage4_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus6"
+  top: "stage4_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn1"
+  top: "stage4_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage4_unit2_bn1"
+  top: "stage4_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage4_unit2_conv1"
+  top: "stage4_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn2"
+  top: "stage4_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage4_unit2_bn2"
+  top: "stage4_unit2_relu1"
+}
+layer {
+  name: "stage4_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage4_unit2_relu1"
+  top: "stage4_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage4_unit2_conv2"
+  top: "stage4_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn3"
+  top: "stage4_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus7"
+  type: "Eltwise"
+  bottom: "stage4_unit2_bn3"
+  bottom: "_plus6"
+  top: "_plus7"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "bn1"
+  type: "BatchNorm"
+  bottom: "_plus7"
+  top: "bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "bn1_scale"
+  type: "Scale"
+  bottom: "bn1"
+  top: "bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "fc8"
+  type: "InnerProduct"
+  bottom: "bn1"
+  top: "fc8"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "msra"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "WeightedSoftmaxWithLoss"
+  bottom: "fc8"
+  bottom: "label"
+  top: "loss"
+  softmax_param {
+    pos_mult: 5
+    pos_cid: 1
+  }
+}
+I1213 10:08:50.690400   363 layer_factory.hpp:77] Creating layer data
+I1213 10:08:50.690513   363 db_lmdb.cpp:35] Opened lmdb /home/lc/gender/dushanzi/data/train.lmdb
+I1213 10:08:50.690558   363 net.cpp:84] Creating Layer data
+I1213 10:08:50.690567   363 net.cpp:380] data -> data
+I1213 10:08:50.690593   363 net.cpp:380] data -> label
+I1213 10:08:50.692113   363 data_layer.cpp:45] output data size: 16,3,200,200
+I1213 10:08:50.712663   363 net.cpp:122] Setting up data
+I1213 10:08:50.712698   363 net.cpp:129] Top shape: 16 3 200 200 (1920000)
+I1213 10:08:50.712704   363 net.cpp:129] Top shape: 16 (16)
+I1213 10:08:50.712707   363 net.cpp:137] Memory required for data: 7680064
+I1213 10:08:50.712719   363 layer_factory.hpp:77] Creating layer conv0
+I1213 10:08:50.712744   363 net.cpp:84] Creating Layer conv0
+I1213 10:08:50.712752   363 net.cpp:406] conv0 <- data
+I1213 10:08:50.712769   363 net.cpp:380] conv0 -> conv0
+I1213 10:08:50.713130   363 net.cpp:122] Setting up conv0
+I1213 10:08:50.713141   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:50.713145   363 net.cpp:137] Memory required for data: 171520064
+I1213 10:08:50.713176   363 layer_factory.hpp:77] Creating layer bn0
+I1213 10:08:50.713186   363 net.cpp:84] Creating Layer bn0
+I1213 10:08:50.713191   363 net.cpp:406] bn0 <- conv0
+I1213 10:08:50.713198   363 net.cpp:380] bn0 -> bn0
+I1213 10:08:50.713449   363 net.cpp:122] Setting up bn0
+I1213 10:08:50.713457   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:50.713461   363 net.cpp:137] Memory required for data: 335360064
+I1213 10:08:50.713474   363 layer_factory.hpp:77] Creating layer bn0_scale
+I1213 10:08:50.713482   363 net.cpp:84] Creating Layer bn0_scale
+I1213 10:08:50.713486   363 net.cpp:406] bn0_scale <- bn0
+I1213 10:08:50.713492   363 net.cpp:367] bn0_scale -> bn0 (in-place)
+I1213 10:08:50.713531   363 layer_factory.hpp:77] Creating layer bn0_scale
+I1213 10:08:50.713732   363 net.cpp:122] Setting up bn0_scale
+I1213 10:08:50.713740   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:50.713744   363 net.cpp:137] Memory required for data: 499200064
+I1213 10:08:50.713753   363 layer_factory.hpp:77] Creating layer relu0
+I1213 10:08:50.713760   363 net.cpp:84] Creating Layer relu0
+I1213 10:08:50.713766   363 net.cpp:406] relu0 <- bn0
+I1213 10:08:50.713773   363 net.cpp:380] relu0 -> relu0
+I1213 10:08:51.150079   363 net.cpp:122] Setting up relu0
+I1213 10:08:51.150115   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.150120   363 net.cpp:137] Memory required for data: 663040064
+I1213 10:08:51.150126   363 layer_factory.hpp:77] Creating layer relu0_relu0_0_split
+I1213 10:08:51.150138   363 net.cpp:84] Creating Layer relu0_relu0_0_split
+I1213 10:08:51.150143   363 net.cpp:406] relu0_relu0_0_split <- relu0
+I1213 10:08:51.150152   363 net.cpp:380] relu0_relu0_0_split -> relu0_relu0_0_split_0
+I1213 10:08:51.150163   363 net.cpp:380] relu0_relu0_0_split -> relu0_relu0_0_split_1
+I1213 10:08:51.150202   363 net.cpp:122] Setting up relu0_relu0_0_split
+I1213 10:08:51.150210   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.150216   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.150220   363 net.cpp:137] Memory required for data: 990720064
+I1213 10:08:51.150224   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1
+I1213 10:08:51.150233   363 net.cpp:84] Creating Layer stage1_unit1_bn1
+I1213 10:08:51.150236   363 net.cpp:406] stage1_unit1_bn1 <- relu0_relu0_0_split_0
+I1213 10:08:51.150241   363 net.cpp:380] stage1_unit1_bn1 -> stage1_unit1_bn1
+I1213 10:08:51.150480   363 net.cpp:122] Setting up stage1_unit1_bn1
+I1213 10:08:51.150488   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.150492   363 net.cpp:137] Memory required for data: 1154560064
+I1213 10:08:51.150509   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1_scale
+I1213 10:08:51.150519   363 net.cpp:84] Creating Layer stage1_unit1_bn1_scale
+I1213 10:08:51.150523   363 net.cpp:406] stage1_unit1_bn1_scale <- stage1_unit1_bn1
+I1213 10:08:51.150529   363 net.cpp:367] stage1_unit1_bn1_scale -> stage1_unit1_bn1 (in-place)
+I1213 10:08:51.150569   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1_scale
+I1213 10:08:51.150811   363 net.cpp:122] Setting up stage1_unit1_bn1_scale
+I1213 10:08:51.150822   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.150826   363 net.cpp:137] Memory required for data: 1318400064
+I1213 10:08:51.150835   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv1
+I1213 10:08:51.150847   363 net.cpp:84] Creating Layer stage1_unit1_conv1
+I1213 10:08:51.150852   363 net.cpp:406] stage1_unit1_conv1 <- stage1_unit1_bn1
+I1213 10:08:51.150859   363 net.cpp:380] stage1_unit1_conv1 -> stage1_unit1_conv1
+I1213 10:08:51.151491   363 net.cpp:122] Setting up stage1_unit1_conv1
+I1213 10:08:51.151502   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.151506   363 net.cpp:137] Memory required for data: 1482240064
+I1213 10:08:51.151513   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2
+I1213 10:08:51.151520   363 net.cpp:84] Creating Layer stage1_unit1_bn2
+I1213 10:08:51.151525   363 net.cpp:406] stage1_unit1_bn2 <- stage1_unit1_conv1
+I1213 10:08:51.151530   363 net.cpp:380] stage1_unit1_bn2 -> stage1_unit1_bn2
+I1213 10:08:51.151765   363 net.cpp:122] Setting up stage1_unit1_bn2
+I1213 10:08:51.151774   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.151778   363 net.cpp:137] Memory required for data: 1646080064
+I1213 10:08:51.151787   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2_scale
+I1213 10:08:51.151793   363 net.cpp:84] Creating Layer stage1_unit1_bn2_scale
+I1213 10:08:51.151798   363 net.cpp:406] stage1_unit1_bn2_scale <- stage1_unit1_bn2
+I1213 10:08:51.151803   363 net.cpp:367] stage1_unit1_bn2_scale -> stage1_unit1_bn2 (in-place)
+I1213 10:08:51.151836   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2_scale
+I1213 10:08:51.152034   363 net.cpp:122] Setting up stage1_unit1_bn2_scale
+I1213 10:08:51.152042   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.152045   363 net.cpp:137] Memory required for data: 1809920064
+I1213 10:08:51.152055   363 layer_factory.hpp:77] Creating layer stage1_unit1_relu1
+I1213 10:08:51.152062   363 net.cpp:84] Creating Layer stage1_unit1_relu1
+I1213 10:08:51.152065   363 net.cpp:406] stage1_unit1_relu1 <- stage1_unit1_bn2
+I1213 10:08:51.152070   363 net.cpp:380] stage1_unit1_relu1 -> stage1_unit1_relu1
+I1213 10:08:51.152169   363 net.cpp:122] Setting up stage1_unit1_relu1
+I1213 10:08:51.152180   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.152184   363 net.cpp:137] Memory required for data: 1973760064
+I1213 10:08:51.152189   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv2
+I1213 10:08:51.152197   363 net.cpp:84] Creating Layer stage1_unit1_conv2
+I1213 10:08:51.152201   363 net.cpp:406] stage1_unit1_conv2 <- stage1_unit1_relu1
+I1213 10:08:51.152209   363 net.cpp:380] stage1_unit1_conv2 -> stage1_unit1_conv2
+I1213 10:08:51.152835   363 net.cpp:122] Setting up stage1_unit1_conv2
+I1213 10:08:51.152845   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.152850   363 net.cpp:137] Memory required for data: 2014720064
+I1213 10:08:51.152856   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3
+I1213 10:08:51.152863   363 net.cpp:84] Creating Layer stage1_unit1_bn3
+I1213 10:08:51.152868   363 net.cpp:406] stage1_unit1_bn3 <- stage1_unit1_conv2
+I1213 10:08:51.152873   363 net.cpp:380] stage1_unit1_bn3 -> stage1_unit1_bn3
+I1213 10:08:51.153084   363 net.cpp:122] Setting up stage1_unit1_bn3
+I1213 10:08:51.153095   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.153098   363 net.cpp:137] Memory required for data: 2055680064
+I1213 10:08:51.153106   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3_scale
+I1213 10:08:51.153113   363 net.cpp:84] Creating Layer stage1_unit1_bn3_scale
+I1213 10:08:51.153118   363 net.cpp:406] stage1_unit1_bn3_scale <- stage1_unit1_bn3
+I1213 10:08:51.153128   363 net.cpp:367] stage1_unit1_bn3_scale -> stage1_unit1_bn3 (in-place)
+I1213 10:08:51.153175   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3_scale
+I1213 10:08:51.153311   363 net.cpp:122] Setting up stage1_unit1_bn3_scale
+I1213 10:08:51.153322   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.153327   363 net.cpp:137] Memory required for data: 2096640064
+I1213 10:08:51.153338   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv1sc
+I1213 10:08:51.153348   363 net.cpp:84] Creating Layer stage1_unit1_conv1sc
+I1213 10:08:51.153357   363 net.cpp:406] stage1_unit1_conv1sc <- relu0_relu0_0_split_1
+I1213 10:08:51.153367   363 net.cpp:380] stage1_unit1_conv1sc -> stage1_unit1_conv1sc
+I1213 10:08:51.153602   363 net.cpp:122] Setting up stage1_unit1_conv1sc
+I1213 10:08:51.153611   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.153615   363 net.cpp:137] Memory required for data: 2137600064
+I1213 10:08:51.153625   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc
+I1213 10:08:51.153637   363 net.cpp:84] Creating Layer stage1_unit1_sc
+I1213 10:08:51.153643   363 net.cpp:406] stage1_unit1_sc <- stage1_unit1_conv1sc
+I1213 10:08:51.153651   363 net.cpp:380] stage1_unit1_sc -> stage1_unit1_sc
+I1213 10:08:51.153867   363 net.cpp:122] Setting up stage1_unit1_sc
+I1213 10:08:51.153875   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.153879   363 net.cpp:137] Memory required for data: 2178560064
+I1213 10:08:51.153892   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc_scale
+I1213 10:08:51.153900   363 net.cpp:84] Creating Layer stage1_unit1_sc_scale
+I1213 10:08:51.153906   363 net.cpp:406] stage1_unit1_sc_scale <- stage1_unit1_sc
+I1213 10:08:51.153913   363 net.cpp:367] stage1_unit1_sc_scale -> stage1_unit1_sc (in-place)
+I1213 10:08:51.153957   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc_scale
+I1213 10:08:51.155364   363 net.cpp:122] Setting up stage1_unit1_sc_scale
+I1213 10:08:51.155381   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.155385   363 net.cpp:137] Memory required for data: 2219520064
+I1213 10:08:51.155397   363 layer_factory.hpp:77] Creating layer _plus0
+I1213 10:08:51.155411   363 net.cpp:84] Creating Layer _plus0
+I1213 10:08:51.155419   363 net.cpp:406] _plus0 <- stage1_unit1_bn3
+I1213 10:08:51.155426   363 net.cpp:406] _plus0 <- stage1_unit1_sc
+I1213 10:08:51.155433   363 net.cpp:380] _plus0 -> _plus0
+I1213 10:08:51.155472   363 net.cpp:122] Setting up _plus0
+I1213 10:08:51.155481   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.155485   363 net.cpp:137] Memory required for data: 2260480064
+I1213 10:08:51.155491   363 layer_factory.hpp:77] Creating layer _plus0__plus0_0_split
+I1213 10:08:51.155500   363 net.cpp:84] Creating Layer _plus0__plus0_0_split
+I1213 10:08:51.155506   363 net.cpp:406] _plus0__plus0_0_split <- _plus0
+I1213 10:08:51.155514   363 net.cpp:380] _plus0__plus0_0_split -> _plus0__plus0_0_split_0
+I1213 10:08:51.155527   363 net.cpp:380] _plus0__plus0_0_split -> _plus0__plus0_0_split_1
+I1213 10:08:51.155567   363 net.cpp:122] Setting up _plus0__plus0_0_split
+I1213 10:08:51.155576   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.155583   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.155588   363 net.cpp:137] Memory required for data: 2342400064
+I1213 10:08:51.155593   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1
+I1213 10:08:51.155607   363 net.cpp:84] Creating Layer stage1_unit2_bn1
+I1213 10:08:51.155612   363 net.cpp:406] stage1_unit2_bn1 <- _plus0__plus0_0_split_0
+I1213 10:08:51.155620   363 net.cpp:380] stage1_unit2_bn1 -> stage1_unit2_bn1
+I1213 10:08:51.155845   363 net.cpp:122] Setting up stage1_unit2_bn1
+I1213 10:08:51.155854   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.155859   363 net.cpp:137] Memory required for data: 2383360064
+I1213 10:08:51.155871   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1_scale
+I1213 10:08:51.155881   363 net.cpp:84] Creating Layer stage1_unit2_bn1_scale
+I1213 10:08:51.155889   363 net.cpp:406] stage1_unit2_bn1_scale <- stage1_unit2_bn1
+I1213 10:08:51.155896   363 net.cpp:367] stage1_unit2_bn1_scale -> stage1_unit2_bn1 (in-place)
+I1213 10:08:51.155943   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1_scale
+I1213 10:08:51.156078   363 net.cpp:122] Setting up stage1_unit2_bn1_scale
+I1213 10:08:51.156088   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.156092   363 net.cpp:137] Memory required for data: 2424320064
+I1213 10:08:51.156109   363 layer_factory.hpp:77] Creating layer stage1_unit2_conv1
+I1213 10:08:51.156124   363 net.cpp:84] Creating Layer stage1_unit2_conv1
+I1213 10:08:51.156131   363 net.cpp:406] stage1_unit2_conv1 <- stage1_unit2_bn1
+I1213 10:08:51.156139   363 net.cpp:380] stage1_unit2_conv1 -> stage1_unit2_conv1
+I1213 10:08:51.156752   363 net.cpp:122] Setting up stage1_unit2_conv1
+I1213 10:08:51.156762   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.156767   363 net.cpp:137] Memory required for data: 2465280064
+I1213 10:08:51.156775   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2
+I1213 10:08:51.156785   363 net.cpp:84] Creating Layer stage1_unit2_bn2
+I1213 10:08:51.156790   363 net.cpp:406] stage1_unit2_bn2 <- stage1_unit2_conv1
+I1213 10:08:51.156798   363 net.cpp:380] stage1_unit2_bn2 -> stage1_unit2_bn2
+I1213 10:08:51.157009   363 net.cpp:122] Setting up stage1_unit2_bn2
+I1213 10:08:51.157018   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.157022   363 net.cpp:137] Memory required for data: 2506240064
+I1213 10:08:51.157035   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2_scale
+I1213 10:08:51.157044   363 net.cpp:84] Creating Layer stage1_unit2_bn2_scale
+I1213 10:08:51.157049   363 net.cpp:406] stage1_unit2_bn2_scale <- stage1_unit2_bn2
+I1213 10:08:51.157055   363 net.cpp:367] stage1_unit2_bn2_scale -> stage1_unit2_bn2 (in-place)
+I1213 10:08:51.157095   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2_scale
+I1213 10:08:51.157224   363 net.cpp:122] Setting up stage1_unit2_bn2_scale
+I1213 10:08:51.157232   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.157236   363 net.cpp:137] Memory required for data: 2547200064
+I1213 10:08:51.157243   363 layer_factory.hpp:77] Creating layer stage1_unit2_relu1
+I1213 10:08:51.157250   363 net.cpp:84] Creating Layer stage1_unit2_relu1
+I1213 10:08:51.157253   363 net.cpp:406] stage1_unit2_relu1 <- stage1_unit2_bn2
+I1213 10:08:51.157260   363 net.cpp:380] stage1_unit2_relu1 -> stage1_unit2_relu1
+I1213 10:08:51.157618   363 net.cpp:122] Setting up stage1_unit2_relu1
+I1213 10:08:51.157634   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.157639   363 net.cpp:137] Memory required for data: 2588160064
+I1213 10:08:51.157642   363 layer_factory.hpp:77] Creating layer stage1_unit2_conv2
+I1213 10:08:51.157655   363 net.cpp:84] Creating Layer stage1_unit2_conv2
+I1213 10:08:51.157671   363 net.cpp:406] stage1_unit2_conv2 <- stage1_unit2_relu1
+I1213 10:08:51.157678   363 net.cpp:380] stage1_unit2_conv2 -> stage1_unit2_conv2
+I1213 10:08:51.158294   363 net.cpp:122] Setting up stage1_unit2_conv2
+I1213 10:08:51.158304   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158308   363 net.cpp:137] Memory required for data: 2629120064
+I1213 10:08:51.158313   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3
+I1213 10:08:51.158321   363 net.cpp:84] Creating Layer stage1_unit2_bn3
+I1213 10:08:51.158325   363 net.cpp:406] stage1_unit2_bn3 <- stage1_unit2_conv2
+I1213 10:08:51.158331   363 net.cpp:380] stage1_unit2_bn3 -> stage1_unit2_bn3
+I1213 10:08:51.158532   363 net.cpp:122] Setting up stage1_unit2_bn3
+I1213 10:08:51.158540   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158545   363 net.cpp:137] Memory required for data: 2670080064
+I1213 10:08:51.158551   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3_scale
+I1213 10:08:51.158560   363 net.cpp:84] Creating Layer stage1_unit2_bn3_scale
+I1213 10:08:51.158562   363 net.cpp:406] stage1_unit2_bn3_scale <- stage1_unit2_bn3
+I1213 10:08:51.158568   363 net.cpp:367] stage1_unit2_bn3_scale -> stage1_unit2_bn3 (in-place)
+I1213 10:08:51.158604   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3_scale
+I1213 10:08:51.158790   363 net.cpp:122] Setting up stage1_unit2_bn3_scale
+I1213 10:08:51.158800   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158804   363 net.cpp:137] Memory required for data: 2711040064
+I1213 10:08:51.158812   363 layer_factory.hpp:77] Creating layer _plus1
+I1213 10:08:51.158820   363 net.cpp:84] Creating Layer _plus1
+I1213 10:08:51.158823   363 net.cpp:406] _plus1 <- stage1_unit2_bn3
+I1213 10:08:51.158828   363 net.cpp:406] _plus1 <- _plus0__plus0_0_split_1
+I1213 10:08:51.158841   363 net.cpp:380] _plus1 -> _plus1
+I1213 10:08:51.158864   363 net.cpp:122] Setting up _plus1
+I1213 10:08:51.158871   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158875   363 net.cpp:137] Memory required for data: 2752000064
+I1213 10:08:51.158879   363 layer_factory.hpp:77] Creating layer _plus1__plus1_0_split
+I1213 10:08:51.158887   363 net.cpp:84] Creating Layer _plus1__plus1_0_split
+I1213 10:08:51.158890   363 net.cpp:406] _plus1__plus1_0_split <- _plus1
+I1213 10:08:51.158896   363 net.cpp:380] _plus1__plus1_0_split -> _plus1__plus1_0_split_0
+I1213 10:08:51.158903   363 net.cpp:380] _plus1__plus1_0_split -> _plus1__plus1_0_split_1
+I1213 10:08:51.158941   363 net.cpp:122] Setting up _plus1__plus1_0_split
+I1213 10:08:51.158947   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158955   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.158960   363 net.cpp:137] Memory required for data: 2833920064
+I1213 10:08:51.158965   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1
+I1213 10:08:51.158988   363 net.cpp:84] Creating Layer stage2_unit1_bn1
+I1213 10:08:51.158994   363 net.cpp:406] stage2_unit1_bn1 <- _plus1__plus1_0_split_0
+I1213 10:08:51.159003   363 net.cpp:380] stage2_unit1_bn1 -> stage2_unit1_bn1
+I1213 10:08:51.159199   363 net.cpp:122] Setting up stage2_unit1_bn1
+I1213 10:08:51.159207   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.159212   363 net.cpp:137] Memory required for data: 2874880064
+I1213 10:08:51.159224   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1_scale
+I1213 10:08:51.159240   363 net.cpp:84] Creating Layer stage2_unit1_bn1_scale
+I1213 10:08:51.159245   363 net.cpp:406] stage2_unit1_bn1_scale <- stage2_unit1_bn1
+I1213 10:08:51.159253   363 net.cpp:367] stage2_unit1_bn1_scale -> stage2_unit1_bn1 (in-place)
+I1213 10:08:51.159296   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1_scale
+I1213 10:08:51.159425   363 net.cpp:122] Setting up stage2_unit1_bn1_scale
+I1213 10:08:51.159433   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.159437   363 net.cpp:137] Memory required for data: 2915840064
+I1213 10:08:51.159448   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv1
+I1213 10:08:51.159461   363 net.cpp:84] Creating Layer stage2_unit1_conv1
+I1213 10:08:51.159466   363 net.cpp:406] stage2_unit1_conv1 <- stage2_unit1_bn1
+I1213 10:08:51.159476   363 net.cpp:380] stage2_unit1_conv1 -> stage2_unit1_conv1
+I1213 10:08:51.160449   363 net.cpp:122] Setting up stage2_unit1_conv1
+I1213 10:08:51.160459   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.160462   363 net.cpp:137] Memory required for data: 2997760064
+I1213 10:08:51.160467   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2
+I1213 10:08:51.160473   363 net.cpp:84] Creating Layer stage2_unit1_bn2
+I1213 10:08:51.160477   363 net.cpp:406] stage2_unit1_bn2 <- stage2_unit1_conv1
+I1213 10:08:51.160482   363 net.cpp:380] stage2_unit1_bn2 -> stage2_unit1_bn2
+I1213 10:08:51.160678   363 net.cpp:122] Setting up stage2_unit1_bn2
+I1213 10:08:51.160686   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.160691   363 net.cpp:137] Memory required for data: 3079680064
+I1213 10:08:51.160697   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2_scale
+I1213 10:08:51.160703   363 net.cpp:84] Creating Layer stage2_unit1_bn2_scale
+I1213 10:08:51.160707   363 net.cpp:406] stage2_unit1_bn2_scale <- stage2_unit1_bn2
+I1213 10:08:51.160712   363 net.cpp:367] stage2_unit1_bn2_scale -> stage2_unit1_bn2 (in-place)
+I1213 10:08:51.160748   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2_scale
+I1213 10:08:51.160862   363 net.cpp:122] Setting up stage2_unit1_bn2_scale
+I1213 10:08:51.160871   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.160874   363 net.cpp:137] Memory required for data: 3161600064
+I1213 10:08:51.160881   363 layer_factory.hpp:77] Creating layer stage2_unit1_relu1
+I1213 10:08:51.160888   363 net.cpp:84] Creating Layer stage2_unit1_relu1
+I1213 10:08:51.160892   363 net.cpp:406] stage2_unit1_relu1 <- stage2_unit1_bn2
+I1213 10:08:51.160897   363 net.cpp:380] stage2_unit1_relu1 -> stage2_unit1_relu1
+I1213 10:08:51.160996   363 net.cpp:122] Setting up stage2_unit1_relu1
+I1213 10:08:51.161006   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.161010   363 net.cpp:137] Memory required for data: 3243520064
+I1213 10:08:51.161015   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv2
+I1213 10:08:51.161022   363 net.cpp:84] Creating Layer stage2_unit1_conv2
+I1213 10:08:51.161026   363 net.cpp:406] stage2_unit1_conv2 <- stage2_unit1_relu1
+I1213 10:08:51.161034   363 net.cpp:380] stage2_unit1_conv2 -> stage2_unit1_conv2
+I1213 10:08:51.162875   363 net.cpp:122] Setting up stage2_unit1_conv2
+I1213 10:08:51.162885   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.162890   363 net.cpp:137] Memory required for data: 3264000064
+I1213 10:08:51.162896   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3
+I1213 10:08:51.162902   363 net.cpp:84] Creating Layer stage2_unit1_bn3
+I1213 10:08:51.162906   363 net.cpp:406] stage2_unit1_bn3 <- stage2_unit1_conv2
+I1213 10:08:51.162914   363 net.cpp:380] stage2_unit1_bn3 -> stage2_unit1_bn3
+I1213 10:08:51.163131   363 net.cpp:122] Setting up stage2_unit1_bn3
+I1213 10:08:51.163141   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.163144   363 net.cpp:137] Memory required for data: 3284480064
+I1213 10:08:51.163152   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3_scale
+I1213 10:08:51.163161   363 net.cpp:84] Creating Layer stage2_unit1_bn3_scale
+I1213 10:08:51.163166   363 net.cpp:406] stage2_unit1_bn3_scale <- stage2_unit1_bn3
+I1213 10:08:51.163172   363 net.cpp:367] stage2_unit1_bn3_scale -> stage2_unit1_bn3 (in-place)
+I1213 10:08:51.163209   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3_scale
+I1213 10:08:51.163316   363 net.cpp:122] Setting up stage2_unit1_bn3_scale
+I1213 10:08:51.163323   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.163327   363 net.cpp:137] Memory required for data: 3304960064
+I1213 10:08:51.163333   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv1sc
+I1213 10:08:51.163343   363 net.cpp:84] Creating Layer stage2_unit1_conv1sc
+I1213 10:08:51.163347   363 net.cpp:406] stage2_unit1_conv1sc <- _plus1__plus1_0_split_1
+I1213 10:08:51.163352   363 net.cpp:380] stage2_unit1_conv1sc -> stage2_unit1_conv1sc
+I1213 10:08:51.163615   363 net.cpp:122] Setting up stage2_unit1_conv1sc
+I1213 10:08:51.163625   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.163645   363 net.cpp:137] Memory required for data: 3325440064
+I1213 10:08:51.163650   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc
+I1213 10:08:51.163658   363 net.cpp:84] Creating Layer stage2_unit1_sc
+I1213 10:08:51.163663   363 net.cpp:406] stage2_unit1_sc <- stage2_unit1_conv1sc
+I1213 10:08:51.163668   363 net.cpp:380] stage2_unit1_sc -> stage2_unit1_sc
+I1213 10:08:51.163862   363 net.cpp:122] Setting up stage2_unit1_sc
+I1213 10:08:51.163872   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.163875   363 net.cpp:137] Memory required for data: 3345920064
+I1213 10:08:51.163893   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc_scale
+I1213 10:08:51.163906   363 net.cpp:84] Creating Layer stage2_unit1_sc_scale
+I1213 10:08:51.163913   363 net.cpp:406] stage2_unit1_sc_scale <- stage2_unit1_sc
+I1213 10:08:51.163920   363 net.cpp:367] stage2_unit1_sc_scale -> stage2_unit1_sc (in-place)
+I1213 10:08:51.163964   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc_scale
+I1213 10:08:51.164073   363 net.cpp:122] Setting up stage2_unit1_sc_scale
+I1213 10:08:51.164081   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164085   363 net.cpp:137] Memory required for data: 3366400064
+I1213 10:08:51.164093   363 layer_factory.hpp:77] Creating layer _plus2
+I1213 10:08:51.164103   363 net.cpp:84] Creating Layer _plus2
+I1213 10:08:51.164117   363 net.cpp:406] _plus2 <- stage2_unit1_bn3
+I1213 10:08:51.164124   363 net.cpp:406] _plus2 <- stage2_unit1_sc
+I1213 10:08:51.164134   363 net.cpp:380] _plus2 -> _plus2
+I1213 10:08:51.164163   363 net.cpp:122] Setting up _plus2
+I1213 10:08:51.164171   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164176   363 net.cpp:137] Memory required for data: 3386880064
+I1213 10:08:51.164182   363 layer_factory.hpp:77] Creating layer _plus2__plus2_0_split
+I1213 10:08:51.164191   363 net.cpp:84] Creating Layer _plus2__plus2_0_split
+I1213 10:08:51.164198   363 net.cpp:406] _plus2__plus2_0_split <- _plus2
+I1213 10:08:51.164208   363 net.cpp:380] _plus2__plus2_0_split -> _plus2__plus2_0_split_0
+I1213 10:08:51.164219   363 net.cpp:380] _plus2__plus2_0_split -> _plus2__plus2_0_split_1
+I1213 10:08:51.164260   363 net.cpp:122] Setting up _plus2__plus2_0_split
+I1213 10:08:51.164269   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164276   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164283   363 net.cpp:137] Memory required for data: 3427840064
+I1213 10:08:51.164288   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1
+I1213 10:08:51.164297   363 net.cpp:84] Creating Layer stage2_unit2_bn1
+I1213 10:08:51.164304   363 net.cpp:406] stage2_unit2_bn1 <- _plus2__plus2_0_split_0
+I1213 10:08:51.164312   363 net.cpp:380] stage2_unit2_bn1 -> stage2_unit2_bn1
+I1213 10:08:51.164507   363 net.cpp:122] Setting up stage2_unit2_bn1
+I1213 10:08:51.164516   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164521   363 net.cpp:137] Memory required for data: 3448320064
+I1213 10:08:51.164532   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1_scale
+I1213 10:08:51.164542   363 net.cpp:84] Creating Layer stage2_unit2_bn1_scale
+I1213 10:08:51.164547   363 net.cpp:406] stage2_unit2_bn1_scale <- stage2_unit2_bn1
+I1213 10:08:51.164552   363 net.cpp:367] stage2_unit2_bn1_scale -> stage2_unit2_bn1 (in-place)
+I1213 10:08:51.164589   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1_scale
+I1213 10:08:51.164696   363 net.cpp:122] Setting up stage2_unit2_bn1_scale
+I1213 10:08:51.164705   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.164710   363 net.cpp:137] Memory required for data: 3468800064
+I1213 10:08:51.164716   363 layer_factory.hpp:77] Creating layer stage2_unit2_conv1
+I1213 10:08:51.164731   363 net.cpp:84] Creating Layer stage2_unit2_conv1
+I1213 10:08:51.164736   363 net.cpp:406] stage2_unit2_conv1 <- stage2_unit2_bn1
+I1213 10:08:51.164746   363 net.cpp:380] stage2_unit2_conv1 -> stage2_unit2_conv1
+I1213 10:08:51.167735   363 net.cpp:122] Setting up stage2_unit2_conv1
+I1213 10:08:51.167752   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.167760   363 net.cpp:137] Memory required for data: 3489280064
+I1213 10:08:51.167770   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2
+I1213 10:08:51.167781   363 net.cpp:84] Creating Layer stage2_unit2_bn2
+I1213 10:08:51.167788   363 net.cpp:406] stage2_unit2_bn2 <- stage2_unit2_conv1
+I1213 10:08:51.167800   363 net.cpp:380] stage2_unit2_bn2 -> stage2_unit2_bn2
+I1213 10:08:51.168043   363 net.cpp:122] Setting up stage2_unit2_bn2
+I1213 10:08:51.168056   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.168059   363 net.cpp:137] Memory required for data: 3509760064
+I1213 10:08:51.168069   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2_scale
+I1213 10:08:51.168077   363 net.cpp:84] Creating Layer stage2_unit2_bn2_scale
+I1213 10:08:51.168082   363 net.cpp:406] stage2_unit2_bn2_scale <- stage2_unit2_bn2
+I1213 10:08:51.168089   363 net.cpp:367] stage2_unit2_bn2_scale -> stage2_unit2_bn2 (in-place)
+I1213 10:08:51.168131   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2_scale
+I1213 10:08:51.168248   363 net.cpp:122] Setting up stage2_unit2_bn2_scale
+I1213 10:08:51.168257   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.168260   363 net.cpp:137] Memory required for data: 3530240064
+I1213 10:08:51.168268   363 layer_factory.hpp:77] Creating layer stage2_unit2_relu1
+I1213 10:08:51.168274   363 net.cpp:84] Creating Layer stage2_unit2_relu1
+I1213 10:08:51.168278   363 net.cpp:406] stage2_unit2_relu1 <- stage2_unit2_bn2
+I1213 10:08:51.168285   363 net.cpp:380] stage2_unit2_relu1 -> stage2_unit2_relu1
+I1213 10:08:51.168678   363 net.cpp:122] Setting up stage2_unit2_relu1
+I1213 10:08:51.168692   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.168697   363 net.cpp:137] Memory required for data: 3550720064
+I1213 10:08:51.168701   363 layer_factory.hpp:77] Creating layer stage2_unit2_conv2
+I1213 10:08:51.168715   363 net.cpp:84] Creating Layer stage2_unit2_conv2
+I1213 10:08:51.168720   363 net.cpp:406] stage2_unit2_conv2 <- stage2_unit2_relu1
+I1213 10:08:51.168735   363 net.cpp:380] stage2_unit2_conv2 -> stage2_unit2_conv2
+I1213 10:08:51.170603   363 net.cpp:122] Setting up stage2_unit2_conv2
+I1213 10:08:51.170615   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.170635   363 net.cpp:137] Memory required for data: 3571200064
+I1213 10:08:51.170642   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3
+I1213 10:08:51.170648   363 net.cpp:84] Creating Layer stage2_unit2_bn3
+I1213 10:08:51.170660   363 net.cpp:406] stage2_unit2_bn3 <- stage2_unit2_conv2
+I1213 10:08:51.170671   363 net.cpp:380] stage2_unit2_bn3 -> stage2_unit2_bn3
+I1213 10:08:51.170900   363 net.cpp:122] Setting up stage2_unit2_bn3
+I1213 10:08:51.170909   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.170913   363 net.cpp:137] Memory required for data: 3591680064
+I1213 10:08:51.170922   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3_scale
+I1213 10:08:51.170928   363 net.cpp:84] Creating Layer stage2_unit2_bn3_scale
+I1213 10:08:51.170933   363 net.cpp:406] stage2_unit2_bn3_scale <- stage2_unit2_bn3
+I1213 10:08:51.170940   363 net.cpp:367] stage2_unit2_bn3_scale -> stage2_unit2_bn3 (in-place)
+I1213 10:08:51.170979   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3_scale
+I1213 10:08:51.171092   363 net.cpp:122] Setting up stage2_unit2_bn3_scale
+I1213 10:08:51.171099   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171103   363 net.cpp:137] Memory required for data: 3612160064
+I1213 10:08:51.171110   363 layer_factory.hpp:77] Creating layer _plus3
+I1213 10:08:51.171116   363 net.cpp:84] Creating Layer _plus3
+I1213 10:08:51.171123   363 net.cpp:406] _plus3 <- stage2_unit2_bn3
+I1213 10:08:51.171128   363 net.cpp:406] _plus3 <- _plus2__plus2_0_split_1
+I1213 10:08:51.171135   363 net.cpp:380] _plus3 -> _plus3
+I1213 10:08:51.171157   363 net.cpp:122] Setting up _plus3
+I1213 10:08:51.171164   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171169   363 net.cpp:137] Memory required for data: 3632640064
+I1213 10:08:51.171172   363 layer_factory.hpp:77] Creating layer _plus3__plus3_0_split
+I1213 10:08:51.171180   363 net.cpp:84] Creating Layer _plus3__plus3_0_split
+I1213 10:08:51.171183   363 net.cpp:406] _plus3__plus3_0_split <- _plus3
+I1213 10:08:51.171191   363 net.cpp:380] _plus3__plus3_0_split -> _plus3__plus3_0_split_0
+I1213 10:08:51.171198   363 net.cpp:380] _plus3__plus3_0_split -> _plus3__plus3_0_split_1
+I1213 10:08:51.171233   363 net.cpp:122] Setting up _plus3__plus3_0_split
+I1213 10:08:51.171241   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171247   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171250   363 net.cpp:137] Memory required for data: 3673600064
+I1213 10:08:51.171253   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1
+I1213 10:08:51.171259   363 net.cpp:84] Creating Layer stage3_unit1_bn1
+I1213 10:08:51.171263   363 net.cpp:406] stage3_unit1_bn1 <- _plus3__plus3_0_split_0
+I1213 10:08:51.171269   363 net.cpp:380] stage3_unit1_bn1 -> stage3_unit1_bn1
+I1213 10:08:51.171466   363 net.cpp:122] Setting up stage3_unit1_bn1
+I1213 10:08:51.171474   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171478   363 net.cpp:137] Memory required for data: 3694080064
+I1213 10:08:51.171486   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1_scale
+I1213 10:08:51.171494   363 net.cpp:84] Creating Layer stage3_unit1_bn1_scale
+I1213 10:08:51.171497   363 net.cpp:406] stage3_unit1_bn1_scale <- stage3_unit1_bn1
+I1213 10:08:51.171504   363 net.cpp:367] stage3_unit1_bn1_scale -> stage3_unit1_bn1 (in-place)
+I1213 10:08:51.171543   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1_scale
+I1213 10:08:51.171656   363 net.cpp:122] Setting up stage3_unit1_bn1_scale
+I1213 10:08:51.171664   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.171669   363 net.cpp:137] Memory required for data: 3714560064
+I1213 10:08:51.171674   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv1
+I1213 10:08:51.171684   363 net.cpp:84] Creating Layer stage3_unit1_conv1
+I1213 10:08:51.171689   363 net.cpp:406] stage3_unit1_conv1 <- stage3_unit1_bn1
+I1213 10:08:51.171696   363 net.cpp:380] stage3_unit1_conv1 -> stage3_unit1_conv1
+I1213 10:08:51.176445   363 net.cpp:122] Setting up stage3_unit1_conv1
+I1213 10:08:51.176462   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.176466   363 net.cpp:137] Memory required for data: 3755520064
+I1213 10:08:51.176474   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2
+I1213 10:08:51.176486   363 net.cpp:84] Creating Layer stage3_unit1_bn2
+I1213 10:08:51.176491   363 net.cpp:406] stage3_unit1_bn2 <- stage3_unit1_conv1
+I1213 10:08:51.176497   363 net.cpp:380] stage3_unit1_bn2 -> stage3_unit1_bn2
+I1213 10:08:51.176709   363 net.cpp:122] Setting up stage3_unit1_bn2
+I1213 10:08:51.176718   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.176721   363 net.cpp:137] Memory required for data: 3796480064
+I1213 10:08:51.176729   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2_scale
+I1213 10:08:51.176740   363 net.cpp:84] Creating Layer stage3_unit1_bn2_scale
+I1213 10:08:51.176745   363 net.cpp:406] stage3_unit1_bn2_scale <- stage3_unit1_bn2
+I1213 10:08:51.176751   363 net.cpp:367] stage3_unit1_bn2_scale -> stage3_unit1_bn2 (in-place)
+I1213 10:08:51.176790   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2_scale
+I1213 10:08:51.176903   363 net.cpp:122] Setting up stage3_unit1_bn2_scale
+I1213 10:08:51.176910   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.176914   363 net.cpp:137] Memory required for data: 3837440064
+I1213 10:08:51.176921   363 layer_factory.hpp:77] Creating layer stage3_unit1_relu1
+I1213 10:08:51.176926   363 net.cpp:84] Creating Layer stage3_unit1_relu1
+I1213 10:08:51.176930   363 net.cpp:406] stage3_unit1_relu1 <- stage3_unit1_bn2
+I1213 10:08:51.176937   363 net.cpp:380] stage3_unit1_relu1 -> stage3_unit1_relu1
+I1213 10:08:51.177047   363 net.cpp:122] Setting up stage3_unit1_relu1
+I1213 10:08:51.177058   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.177062   363 net.cpp:137] Memory required for data: 3878400064
+I1213 10:08:51.177067   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv2
+I1213 10:08:51.177078   363 net.cpp:84] Creating Layer stage3_unit1_conv2
+I1213 10:08:51.177083   363 net.cpp:406] stage3_unit1_conv2 <- stage3_unit1_relu1
+I1213 10:08:51.177090   363 net.cpp:380] stage3_unit1_conv2 -> stage3_unit1_conv2
+I1213 10:08:51.185184   363 net.cpp:122] Setting up stage3_unit1_conv2
+I1213 10:08:51.185199   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.185202   363 net.cpp:137] Memory required for data: 3888640064
+I1213 10:08:51.185209   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3
+I1213 10:08:51.185220   363 net.cpp:84] Creating Layer stage3_unit1_bn3
+I1213 10:08:51.185223   363 net.cpp:406] stage3_unit1_bn3 <- stage3_unit1_conv2
+I1213 10:08:51.185230   363 net.cpp:380] stage3_unit1_bn3 -> stage3_unit1_bn3
+I1213 10:08:51.185436   363 net.cpp:122] Setting up stage3_unit1_bn3
+I1213 10:08:51.185446   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.185449   363 net.cpp:137] Memory required for data: 3898880064
+I1213 10:08:51.185457   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3_scale
+I1213 10:08:51.185472   363 net.cpp:84] Creating Layer stage3_unit1_bn3_scale
+I1213 10:08:51.185477   363 net.cpp:406] stage3_unit1_bn3_scale <- stage3_unit1_bn3
+I1213 10:08:51.185482   363 net.cpp:367] stage3_unit1_bn3_scale -> stage3_unit1_bn3 (in-place)
+I1213 10:08:51.185525   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3_scale
+I1213 10:08:51.185634   363 net.cpp:122] Setting up stage3_unit1_bn3_scale
+I1213 10:08:51.185644   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.185648   363 net.cpp:137] Memory required for data: 3909120064
+I1213 10:08:51.185655   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv1sc
+I1213 10:08:51.185664   363 net.cpp:84] Creating Layer stage3_unit1_conv1sc
+I1213 10:08:51.185669   363 net.cpp:406] stage3_unit1_conv1sc <- _plus3__plus3_0_split_1
+I1213 10:08:51.185676   363 net.cpp:380] stage3_unit1_conv1sc -> stage3_unit1_conv1sc
+I1213 10:08:51.186302   363 net.cpp:122] Setting up stage3_unit1_conv1sc
+I1213 10:08:51.186321   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.186327   363 net.cpp:137] Memory required for data: 3919360064
+I1213 10:08:51.186337   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc
+I1213 10:08:51.186347   363 net.cpp:84] Creating Layer stage3_unit1_sc
+I1213 10:08:51.186352   363 net.cpp:406] stage3_unit1_sc <- stage3_unit1_conv1sc
+I1213 10:08:51.186365   363 net.cpp:380] stage3_unit1_sc -> stage3_unit1_sc
+I1213 10:08:51.186679   363 net.cpp:122] Setting up stage3_unit1_sc
+I1213 10:08:51.186695   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.186702   363 net.cpp:137] Memory required for data: 3929600064
+I1213 10:08:51.186717   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc_scale
+I1213 10:08:51.186729   363 net.cpp:84] Creating Layer stage3_unit1_sc_scale
+I1213 10:08:51.186736   363 net.cpp:406] stage3_unit1_sc_scale <- stage3_unit1_sc
+I1213 10:08:51.186748   363 net.cpp:367] stage3_unit1_sc_scale -> stage3_unit1_sc (in-place)
+I1213 10:08:51.186806   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc_scale
+I1213 10:08:51.186967   363 net.cpp:122] Setting up stage3_unit1_sc_scale
+I1213 10:08:51.186980   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.186985   363 net.cpp:137] Memory required for data: 3939840064
+I1213 10:08:51.186997   363 layer_factory.hpp:77] Creating layer _plus4
+I1213 10:08:51.187006   363 net.cpp:84] Creating Layer _plus4
+I1213 10:08:51.187012   363 net.cpp:406] _plus4 <- stage3_unit1_bn3
+I1213 10:08:51.187019   363 net.cpp:406] _plus4 <- stage3_unit1_sc
+I1213 10:08:51.187031   363 net.cpp:380] _plus4 -> _plus4
+I1213 10:08:51.187068   363 net.cpp:122] Setting up _plus4
+I1213 10:08:51.187079   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.187085   363 net.cpp:137] Memory required for data: 3950080064
+I1213 10:08:51.187091   363 layer_factory.hpp:77] Creating layer _plus4__plus4_0_split
+I1213 10:08:51.187101   363 net.cpp:84] Creating Layer _plus4__plus4_0_split
+I1213 10:08:51.187106   363 net.cpp:406] _plus4__plus4_0_split <- _plus4
+I1213 10:08:51.187117   363 net.cpp:380] _plus4__plus4_0_split -> _plus4__plus4_0_split_0
+I1213 10:08:51.187129   363 net.cpp:380] _plus4__plus4_0_split -> _plus4__plus4_0_split_1
+I1213 10:08:51.187181   363 net.cpp:122] Setting up _plus4__plus4_0_split
+I1213 10:08:51.187193   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.187202   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.187208   363 net.cpp:137] Memory required for data: 3970560064
+I1213 10:08:51.187214   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1
+I1213 10:08:51.187223   363 net.cpp:84] Creating Layer stage3_unit2_bn1
+I1213 10:08:51.187229   363 net.cpp:406] stage3_unit2_bn1 <- _plus4__plus4_0_split_0
+I1213 10:08:51.187240   363 net.cpp:380] stage3_unit2_bn1 -> stage3_unit2_bn1
+I1213 10:08:51.187531   363 net.cpp:122] Setting up stage3_unit2_bn1
+I1213 10:08:51.187544   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.187551   363 net.cpp:137] Memory required for data: 3980800064
+I1213 10:08:51.187563   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1_scale
+I1213 10:08:51.187574   363 net.cpp:84] Creating Layer stage3_unit2_bn1_scale
+I1213 10:08:51.187582   363 net.cpp:406] stage3_unit2_bn1_scale <- stage3_unit2_bn1
+I1213 10:08:51.187592   363 net.cpp:367] stage3_unit2_bn1_scale -> stage3_unit2_bn1 (in-place)
+I1213 10:08:51.187649   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1_scale
+I1213 10:08:51.187810   363 net.cpp:122] Setting up stage3_unit2_bn1_scale
+I1213 10:08:51.187822   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.187829   363 net.cpp:137] Memory required for data: 3991040064
+I1213 10:08:51.187839   363 layer_factory.hpp:77] Creating layer stage3_unit2_conv1
+I1213 10:08:51.187857   363 net.cpp:84] Creating Layer stage3_unit2_conv1
+I1213 10:08:51.187865   363 net.cpp:406] stage3_unit2_conv1 <- stage3_unit2_bn1
+I1213 10:08:51.187875   363 net.cpp:380] stage3_unit2_conv1 -> stage3_unit2_conv1
+I1213 10:08:51.197095   363 net.cpp:122] Setting up stage3_unit2_conv1
+I1213 10:08:51.197134   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.197137   363 net.cpp:137] Memory required for data: 4001280064
+I1213 10:08:51.197146   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2
+I1213 10:08:51.197158   363 net.cpp:84] Creating Layer stage3_unit2_bn2
+I1213 10:08:51.197162   363 net.cpp:406] stage3_unit2_bn2 <- stage3_unit2_conv1
+I1213 10:08:51.197170   363 net.cpp:380] stage3_unit2_bn2 -> stage3_unit2_bn2
+I1213 10:08:51.197383   363 net.cpp:122] Setting up stage3_unit2_bn2
+I1213 10:08:51.197392   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.197396   363 net.cpp:137] Memory required for data: 4011520064
+I1213 10:08:51.197404   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2_scale
+I1213 10:08:51.197413   363 net.cpp:84] Creating Layer stage3_unit2_bn2_scale
+I1213 10:08:51.197418   363 net.cpp:406] stage3_unit2_bn2_scale <- stage3_unit2_bn2
+I1213 10:08:51.197423   363 net.cpp:367] stage3_unit2_bn2_scale -> stage3_unit2_bn2 (in-place)
+I1213 10:08:51.197468   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2_scale
+I1213 10:08:51.197583   363 net.cpp:122] Setting up stage3_unit2_bn2_scale
+I1213 10:08:51.197592   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.197595   363 net.cpp:137] Memory required for data: 4021760064
+I1213 10:08:51.197602   363 layer_factory.hpp:77] Creating layer stage3_unit2_relu1
+I1213 10:08:51.197608   363 net.cpp:84] Creating Layer stage3_unit2_relu1
+I1213 10:08:51.197613   363 net.cpp:406] stage3_unit2_relu1 <- stage3_unit2_bn2
+I1213 10:08:51.197621   363 net.cpp:380] stage3_unit2_relu1 -> stage3_unit2_relu1
+I1213 10:08:51.198019   363 net.cpp:122] Setting up stage3_unit2_relu1
+I1213 10:08:51.198051   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.198056   363 net.cpp:137] Memory required for data: 4032000064
+I1213 10:08:51.198060   363 layer_factory.hpp:77] Creating layer stage3_unit2_conv2
+I1213 10:08:51.198071   363 net.cpp:84] Creating Layer stage3_unit2_conv2
+I1213 10:08:51.198076   363 net.cpp:406] stage3_unit2_conv2 <- stage3_unit2_relu1
+I1213 10:08:51.198084   363 net.cpp:380] stage3_unit2_conv2 -> stage3_unit2_conv2
+I1213 10:08:51.206018   363 net.cpp:122] Setting up stage3_unit2_conv2
+I1213 10:08:51.206037   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206056   363 net.cpp:137] Memory required for data: 4042240064
+I1213 10:08:51.206065   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3
+I1213 10:08:51.206073   363 net.cpp:84] Creating Layer stage3_unit2_bn3
+I1213 10:08:51.206079   363 net.cpp:406] stage3_unit2_bn3 <- stage3_unit2_conv2
+I1213 10:08:51.206085   363 net.cpp:380] stage3_unit2_bn3 -> stage3_unit2_bn3
+I1213 10:08:51.206306   363 net.cpp:122] Setting up stage3_unit2_bn3
+I1213 10:08:51.206316   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206321   363 net.cpp:137] Memory required for data: 4052480064
+I1213 10:08:51.206332   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3_scale
+I1213 10:08:51.206341   363 net.cpp:84] Creating Layer stage3_unit2_bn3_scale
+I1213 10:08:51.206346   363 net.cpp:406] stage3_unit2_bn3_scale <- stage3_unit2_bn3
+I1213 10:08:51.206351   363 net.cpp:367] stage3_unit2_bn3_scale -> stage3_unit2_bn3 (in-place)
+I1213 10:08:51.206398   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3_scale
+I1213 10:08:51.206511   363 net.cpp:122] Setting up stage3_unit2_bn3_scale
+I1213 10:08:51.206519   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206523   363 net.cpp:137] Memory required for data: 4062720064
+I1213 10:08:51.206532   363 layer_factory.hpp:77] Creating layer _plus5
+I1213 10:08:51.206545   363 net.cpp:84] Creating Layer _plus5
+I1213 10:08:51.206552   363 net.cpp:406] _plus5 <- stage3_unit2_bn3
+I1213 10:08:51.206558   363 net.cpp:406] _plus5 <- _plus4__plus4_0_split_1
+I1213 10:08:51.206568   363 net.cpp:380] _plus5 -> _plus5
+I1213 10:08:51.206601   363 net.cpp:122] Setting up _plus5
+I1213 10:08:51.206609   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206614   363 net.cpp:137] Memory required for data: 4072960064
+I1213 10:08:51.206617   363 layer_factory.hpp:77] Creating layer _plus5__plus5_0_split
+I1213 10:08:51.206624   363 net.cpp:84] Creating Layer _plus5__plus5_0_split
+I1213 10:08:51.206629   363 net.cpp:406] _plus5__plus5_0_split <- _plus5
+I1213 10:08:51.206635   363 net.cpp:380] _plus5__plus5_0_split -> _plus5__plus5_0_split_0
+I1213 10:08:51.206645   363 net.cpp:380] _plus5__plus5_0_split -> _plus5__plus5_0_split_1
+I1213 10:08:51.206699   363 net.cpp:122] Setting up _plus5__plus5_0_split
+I1213 10:08:51.206712   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206718   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206722   363 net.cpp:137] Memory required for data: 4093440064
+I1213 10:08:51.206727   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1
+I1213 10:08:51.206735   363 net.cpp:84] Creating Layer stage4_unit1_bn1
+I1213 10:08:51.206739   363 net.cpp:406] stage4_unit1_bn1 <- _plus5__plus5_0_split_0
+I1213 10:08:51.206748   363 net.cpp:380] stage4_unit1_bn1 -> stage4_unit1_bn1
+I1213 10:08:51.206948   363 net.cpp:122] Setting up stage4_unit1_bn1
+I1213 10:08:51.206955   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.206959   363 net.cpp:137] Memory required for data: 4103680064
+I1213 10:08:51.206990   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1_scale
+I1213 10:08:51.207000   363 net.cpp:84] Creating Layer stage4_unit1_bn1_scale
+I1213 10:08:51.207007   363 net.cpp:406] stage4_unit1_bn1_scale <- stage4_unit1_bn1
+I1213 10:08:51.207015   363 net.cpp:367] stage4_unit1_bn1_scale -> stage4_unit1_bn1 (in-place)
+I1213 10:08:51.207060   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1_scale
+I1213 10:08:51.207173   363 net.cpp:122] Setting up stage4_unit1_bn1_scale
+I1213 10:08:51.207181   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.207185   363 net.cpp:137] Memory required for data: 4113920064
+I1213 10:08:51.207195   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv1
+I1213 10:08:51.207212   363 net.cpp:84] Creating Layer stage4_unit1_conv1
+I1213 10:08:51.207217   363 net.cpp:406] stage4_unit1_conv1 <- stage4_unit1_bn1
+I1213 10:08:51.207226   363 net.cpp:380] stage4_unit1_conv1 -> stage4_unit1_conv1
+I1213 10:08:51.223121   363 net.cpp:122] Setting up stage4_unit1_conv1
+I1213 10:08:51.223152   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.223156   363 net.cpp:137] Memory required for data: 4134400064
+I1213 10:08:51.223170   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2
+I1213 10:08:51.223187   363 net.cpp:84] Creating Layer stage4_unit1_bn2
+I1213 10:08:51.223196   363 net.cpp:406] stage4_unit1_bn2 <- stage4_unit1_conv1
+I1213 10:08:51.223207   363 net.cpp:380] stage4_unit1_bn2 -> stage4_unit1_bn2
+I1213 10:08:51.223433   363 net.cpp:122] Setting up stage4_unit1_bn2
+I1213 10:08:51.223443   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.223448   363 net.cpp:137] Memory required for data: 4154880064
+I1213 10:08:51.223459   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2_scale
+I1213 10:08:51.223474   363 net.cpp:84] Creating Layer stage4_unit1_bn2_scale
+I1213 10:08:51.223480   363 net.cpp:406] stage4_unit1_bn2_scale <- stage4_unit1_bn2
+I1213 10:08:51.223487   363 net.cpp:367] stage4_unit1_bn2_scale -> stage4_unit1_bn2 (in-place)
+I1213 10:08:51.223541   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2_scale
+I1213 10:08:51.223660   363 net.cpp:122] Setting up stage4_unit1_bn2_scale
+I1213 10:08:51.223670   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.223673   363 net.cpp:137] Memory required for data: 4175360064
+I1213 10:08:51.223685   363 layer_factory.hpp:77] Creating layer stage4_unit1_relu1
+I1213 10:08:51.223695   363 net.cpp:84] Creating Layer stage4_unit1_relu1
+I1213 10:08:51.223700   363 net.cpp:406] stage4_unit1_relu1 <- stage4_unit1_bn2
+I1213 10:08:51.223706   363 net.cpp:380] stage4_unit1_relu1 -> stage4_unit1_relu1
+I1213 10:08:51.223861   363 net.cpp:122] Setting up stage4_unit1_relu1
+I1213 10:08:51.223872   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.223876   363 net.cpp:137] Memory required for data: 4195840064
+I1213 10:08:51.223881   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv2
+I1213 10:08:51.223898   363 net.cpp:84] Creating Layer stage4_unit1_conv2
+I1213 10:08:51.223903   363 net.cpp:406] stage4_unit1_conv2 <- stage4_unit1_relu1
+I1213 10:08:51.223911   363 net.cpp:380] stage4_unit1_conv2 -> stage4_unit1_conv2
+I1213 10:08:51.255568   363 net.cpp:122] Setting up stage4_unit1_conv2
+I1213 10:08:51.255599   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.255604   363 net.cpp:137] Memory required for data: 4201377856
+I1213 10:08:51.255615   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3
+I1213 10:08:51.255630   363 net.cpp:84] Creating Layer stage4_unit1_bn3
+I1213 10:08:51.255636   363 net.cpp:406] stage4_unit1_bn3 <- stage4_unit1_conv2
+I1213 10:08:51.255645   363 net.cpp:380] stage4_unit1_bn3 -> stage4_unit1_bn3
+I1213 10:08:51.255877   363 net.cpp:122] Setting up stage4_unit1_bn3
+I1213 10:08:51.255887   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.255890   363 net.cpp:137] Memory required for data: 4206915648
+I1213 10:08:51.255900   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3_scale
+I1213 10:08:51.255921   363 net.cpp:84] Creating Layer stage4_unit1_bn3_scale
+I1213 10:08:51.255928   363 net.cpp:406] stage4_unit1_bn3_scale <- stage4_unit1_bn3
+I1213 10:08:51.255934   363 net.cpp:367] stage4_unit1_bn3_scale -> stage4_unit1_bn3 (in-place)
+I1213 10:08:51.255987   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3_scale
+I1213 10:08:51.256104   363 net.cpp:122] Setting up stage4_unit1_bn3_scale
+I1213 10:08:51.256114   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.256119   363 net.cpp:137] Memory required for data: 4212453440
+I1213 10:08:51.256129   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv1sc
+I1213 10:08:51.256144   363 net.cpp:84] Creating Layer stage4_unit1_conv1sc
+I1213 10:08:51.256150   363 net.cpp:406] stage4_unit1_conv1sc <- _plus5__plus5_0_split_1
+I1213 10:08:51.256161   363 net.cpp:380] stage4_unit1_conv1sc -> stage4_unit1_conv1sc
+I1213 10:08:51.257920   363 net.cpp:122] Setting up stage4_unit1_conv1sc
+I1213 10:08:51.257930   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.257935   363 net.cpp:137] Memory required for data: 4217991232
+I1213 10:08:51.257941   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc
+I1213 10:08:51.257949   363 net.cpp:84] Creating Layer stage4_unit1_sc
+I1213 10:08:51.257954   363 net.cpp:406] stage4_unit1_sc <- stage4_unit1_conv1sc
+I1213 10:08:51.257964   363 net.cpp:380] stage4_unit1_sc -> stage4_unit1_sc
+I1213 10:08:51.258165   363 net.cpp:122] Setting up stage4_unit1_sc
+I1213 10:08:51.258173   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258177   363 net.cpp:137] Memory required for data: 4223529024
+I1213 10:08:51.258186   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc_scale
+I1213 10:08:51.258193   363 net.cpp:84] Creating Layer stage4_unit1_sc_scale
+I1213 10:08:51.258195   363 net.cpp:406] stage4_unit1_sc_scale <- stage4_unit1_sc
+I1213 10:08:51.258203   363 net.cpp:367] stage4_unit1_sc_scale -> stage4_unit1_sc (in-place)
+I1213 10:08:51.258239   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc_scale
+I1213 10:08:51.258343   363 net.cpp:122] Setting up stage4_unit1_sc_scale
+I1213 10:08:51.258352   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258355   363 net.cpp:137] Memory required for data: 4229066816
+I1213 10:08:51.258363   363 layer_factory.hpp:77] Creating layer _plus6
+I1213 10:08:51.258368   363 net.cpp:84] Creating Layer _plus6
+I1213 10:08:51.258373   363 net.cpp:406] _plus6 <- stage4_unit1_bn3
+I1213 10:08:51.258378   363 net.cpp:406] _plus6 <- stage4_unit1_sc
+I1213 10:08:51.258384   363 net.cpp:380] _plus6 -> _plus6
+I1213 10:08:51.258406   363 net.cpp:122] Setting up _plus6
+I1213 10:08:51.258414   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258417   363 net.cpp:137] Memory required for data: 4234604608
+I1213 10:08:51.258421   363 layer_factory.hpp:77] Creating layer _plus6__plus6_0_split
+I1213 10:08:51.258430   363 net.cpp:84] Creating Layer _plus6__plus6_0_split
+I1213 10:08:51.258435   363 net.cpp:406] _plus6__plus6_0_split <- _plus6
+I1213 10:08:51.258441   363 net.cpp:380] _plus6__plus6_0_split -> _plus6__plus6_0_split_0
+I1213 10:08:51.258450   363 net.cpp:380] _plus6__plus6_0_split -> _plus6__plus6_0_split_1
+I1213 10:08:51.258487   363 net.cpp:122] Setting up _plus6__plus6_0_split
+I1213 10:08:51.258496   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258500   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258507   363 net.cpp:137] Memory required for data: 4245680192
+I1213 10:08:51.258512   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1
+I1213 10:08:51.258518   363 net.cpp:84] Creating Layer stage4_unit2_bn1
+I1213 10:08:51.258522   363 net.cpp:406] stage4_unit2_bn1 <- _plus6__plus6_0_split_0
+I1213 10:08:51.258530   363 net.cpp:380] stage4_unit2_bn1 -> stage4_unit2_bn1
+I1213 10:08:51.258751   363 net.cpp:122] Setting up stage4_unit2_bn1
+I1213 10:08:51.258761   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258764   363 net.cpp:137] Memory required for data: 4251217984
+I1213 10:08:51.258777   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1_scale
+I1213 10:08:51.258785   363 net.cpp:84] Creating Layer stage4_unit2_bn1_scale
+I1213 10:08:51.258790   363 net.cpp:406] stage4_unit2_bn1_scale <- stage4_unit2_bn1
+I1213 10:08:51.258797   363 net.cpp:367] stage4_unit2_bn1_scale -> stage4_unit2_bn1 (in-place)
+I1213 10:08:51.258844   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1_scale
+I1213 10:08:51.258957   363 net.cpp:122] Setting up stage4_unit2_bn1_scale
+I1213 10:08:51.258966   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.258970   363 net.cpp:137] Memory required for data: 4256755776
+I1213 10:08:51.258980   363 layer_factory.hpp:77] Creating layer stage4_unit2_conv1
+I1213 10:08:51.258994   363 net.cpp:84] Creating Layer stage4_unit2_conv1
+I1213 10:08:51.259001   363 net.cpp:406] stage4_unit2_conv1 <- stage4_unit2_bn1
+I1213 10:08:51.259007   363 net.cpp:380] stage4_unit2_conv1 -> stage4_unit2_conv1
+I1213 10:08:51.299819   363 net.cpp:122] Setting up stage4_unit2_conv1
+I1213 10:08:51.299860   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.299865   363 net.cpp:137] Memory required for data: 4262293568
+I1213 10:08:51.299882   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2
+I1213 10:08:51.299901   363 net.cpp:84] Creating Layer stage4_unit2_bn2
+I1213 10:08:51.299908   363 net.cpp:406] stage4_unit2_bn2 <- stage4_unit2_conv1
+I1213 10:08:51.299921   363 net.cpp:380] stage4_unit2_bn2 -> stage4_unit2_bn2
+I1213 10:08:51.300222   363 net.cpp:122] Setting up stage4_unit2_bn2
+I1213 10:08:51.300236   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.300242   363 net.cpp:137] Memory required for data: 4267831360
+I1213 10:08:51.300256   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2_scale
+I1213 10:08:51.300266   363 net.cpp:84] Creating Layer stage4_unit2_bn2_scale
+I1213 10:08:51.300273   363 net.cpp:406] stage4_unit2_bn2_scale <- stage4_unit2_bn2
+I1213 10:08:51.300282   363 net.cpp:367] stage4_unit2_bn2_scale -> stage4_unit2_bn2 (in-place)
+I1213 10:08:51.300343   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2_scale
+I1213 10:08:51.300496   363 net.cpp:122] Setting up stage4_unit2_bn2_scale
+I1213 10:08:51.300509   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.300515   363 net.cpp:137] Memory required for data: 4273369152
+I1213 10:08:51.300526   363 layer_factory.hpp:77] Creating layer stage4_unit2_relu1
+I1213 10:08:51.300535   363 net.cpp:84] Creating Layer stage4_unit2_relu1
+I1213 10:08:51.300542   363 net.cpp:406] stage4_unit2_relu1 <- stage4_unit2_bn2
+I1213 10:08:51.300554   363 net.cpp:380] stage4_unit2_relu1 -> stage4_unit2_relu1
+I1213 10:08:51.301159   363 net.cpp:122] Setting up stage4_unit2_relu1
+I1213 10:08:51.301178   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.301185   363 net.cpp:137] Memory required for data: 4278906944
+I1213 10:08:51.301192   363 layer_factory.hpp:77] Creating layer stage4_unit2_conv2
+I1213 10:08:51.301213   363 net.cpp:84] Creating Layer stage4_unit2_conv2
+I1213 10:08:51.301220   363 net.cpp:406] stage4_unit2_conv2 <- stage4_unit2_relu1
+I1213 10:08:51.301232   363 net.cpp:380] stage4_unit2_conv2 -> stage4_unit2_conv2
+I1213 10:08:51.333433   363 net.cpp:122] Setting up stage4_unit2_conv2
+I1213 10:08:51.333478   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.333482   363 net.cpp:137] Memory required for data: 4284444736
+I1213 10:08:51.333493   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3
+I1213 10:08:51.333506   363 net.cpp:84] Creating Layer stage4_unit2_bn3
+I1213 10:08:51.333526   363 net.cpp:406] stage4_unit2_bn3 <- stage4_unit2_conv2
+I1213 10:08:51.333534   363 net.cpp:380] stage4_unit2_bn3 -> stage4_unit2_bn3
+I1213 10:08:51.333772   363 net.cpp:122] Setting up stage4_unit2_bn3
+I1213 10:08:51.333779   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.333783   363 net.cpp:137] Memory required for data: 4289982528
+I1213 10:08:51.333791   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3_scale
+I1213 10:08:51.333801   363 net.cpp:84] Creating Layer stage4_unit2_bn3_scale
+I1213 10:08:51.333806   363 net.cpp:406] stage4_unit2_bn3_scale <- stage4_unit2_bn3
+I1213 10:08:51.333811   363 net.cpp:367] stage4_unit2_bn3_scale -> stage4_unit2_bn3 (in-place)
+I1213 10:08:51.333854   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3_scale
+I1213 10:08:51.333961   363 net.cpp:122] Setting up stage4_unit2_bn3_scale
+I1213 10:08:51.333971   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.333974   363 net.cpp:137] Memory required for data: 4295520320
+I1213 10:08:51.333981   363 layer_factory.hpp:77] Creating layer _plus7
+I1213 10:08:51.333989   363 net.cpp:84] Creating Layer _plus7
+I1213 10:08:51.333994   363 net.cpp:406] _plus7 <- stage4_unit2_bn3
+I1213 10:08:51.333999   363 net.cpp:406] _plus7 <- _plus6__plus6_0_split_1
+I1213 10:08:51.334005   363 net.cpp:380] _plus7 -> _plus7
+I1213 10:08:51.334028   363 net.cpp:122] Setting up _plus7
+I1213 10:08:51.334034   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.334038   363 net.cpp:137] Memory required for data: 4301058112
+I1213 10:08:51.334041   363 layer_factory.hpp:77] Creating layer bn1
+I1213 10:08:51.334048   363 net.cpp:84] Creating Layer bn1
+I1213 10:08:51.334053   363 net.cpp:406] bn1 <- _plus7
+I1213 10:08:51.334058   363 net.cpp:380] bn1 -> bn1
+I1213 10:08:51.334244   363 net.cpp:122] Setting up bn1
+I1213 10:08:51.334251   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.334254   363 net.cpp:137] Memory required for data: 4306595904
+I1213 10:08:51.334261   363 layer_factory.hpp:77] Creating layer bn1_scale
+I1213 10:08:51.334267   363 net.cpp:84] Creating Layer bn1_scale
+I1213 10:08:51.334272   363 net.cpp:406] bn1_scale <- bn1
+I1213 10:08:51.334277   363 net.cpp:367] bn1_scale -> bn1 (in-place)
+I1213 10:08:51.334312   363 layer_factory.hpp:77] Creating layer bn1_scale
+I1213 10:08:51.334405   363 net.cpp:122] Setting up bn1_scale
+I1213 10:08:51.334414   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.334416   363 net.cpp:137] Memory required for data: 4312133696
+I1213 10:08:51.334421   363 layer_factory.hpp:77] Creating layer fc8
+I1213 10:08:51.334431   363 net.cpp:84] Creating Layer fc8
+I1213 10:08:51.334435   363 net.cpp:406] fc8 <- bn1
+I1213 10:08:51.334442   363 net.cpp:380] fc8 -> fc8
+I1213 10:08:51.337488   363 net.cpp:122] Setting up fc8
+I1213 10:08:51.337502   363 net.cpp:129] Top shape: 16 2 (32)
+I1213 10:08:51.337505   363 net.cpp:137] Memory required for data: 4312133824
+I1213 10:08:51.337530   363 layer_factory.hpp:77] Creating layer loss
+I1213 10:08:51.337538   363 net.cpp:84] Creating Layer loss
+I1213 10:08:51.337543   363 net.cpp:406] loss <- fc8
+I1213 10:08:51.337548   363 net.cpp:406] loss <- label
+I1213 10:08:51.337558   363 net.cpp:380] loss -> loss
+I1213 10:08:51.337569   363 layer_factory.hpp:77] Creating layer loss
+I1213 10:08:51.337757   363 weighted_softmax_loss_layer.cpp:25] mult: 5, id: 1
+I1213 10:08:51.337823   363 net.cpp:122] Setting up loss
+I1213 10:08:51.337829   363 net.cpp:129] Top shape: (1)
+I1213 10:08:51.337832   363 net.cpp:132]     with loss weight 1
+I1213 10:08:51.337837   363 net.cpp:137] Memory required for data: 4312133828
+I1213 10:08:51.337841   363 net.cpp:198] loss needs backward computation.
+I1213 10:08:51.337846   363 net.cpp:198] fc8 needs backward computation.
+I1213 10:08:51.337848   363 net.cpp:198] bn1_scale needs backward computation.
+I1213 10:08:51.337852   363 net.cpp:198] bn1 needs backward computation.
+I1213 10:08:51.337855   363 net.cpp:198] _plus7 needs backward computation.
+I1213 10:08:51.337859   363 net.cpp:198] stage4_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.337862   363 net.cpp:198] stage4_unit2_bn3 needs backward computation.
+I1213 10:08:51.337867   363 net.cpp:198] stage4_unit2_conv2 needs backward computation.
+I1213 10:08:51.337869   363 net.cpp:198] stage4_unit2_relu1 needs backward computation.
+I1213 10:08:51.337873   363 net.cpp:198] stage4_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.337877   363 net.cpp:198] stage4_unit2_bn2 needs backward computation.
+I1213 10:08:51.337879   363 net.cpp:198] stage4_unit2_conv1 needs backward computation.
+I1213 10:08:51.337883   363 net.cpp:198] stage4_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.337886   363 net.cpp:198] stage4_unit2_bn1 needs backward computation.
+I1213 10:08:51.337890   363 net.cpp:198] _plus6__plus6_0_split needs backward computation.
+I1213 10:08:51.337893   363 net.cpp:198] _plus6 needs backward computation.
+I1213 10:08:51.337898   363 net.cpp:198] stage4_unit1_sc_scale needs backward computation.
+I1213 10:08:51.337901   363 net.cpp:198] stage4_unit1_sc needs backward computation.
+I1213 10:08:51.337904   363 net.cpp:198] stage4_unit1_conv1sc needs backward computation.
+I1213 10:08:51.337908   363 net.cpp:198] stage4_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.337911   363 net.cpp:198] stage4_unit1_bn3 needs backward computation.
+I1213 10:08:51.337915   363 net.cpp:198] stage4_unit1_conv2 needs backward computation.
+I1213 10:08:51.337919   363 net.cpp:198] stage4_unit1_relu1 needs backward computation.
+I1213 10:08:51.337922   363 net.cpp:198] stage4_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.337925   363 net.cpp:198] stage4_unit1_bn2 needs backward computation.
+I1213 10:08:51.337929   363 net.cpp:198] stage4_unit1_conv1 needs backward computation.
+I1213 10:08:51.337932   363 net.cpp:198] stage4_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.337935   363 net.cpp:198] stage4_unit1_bn1 needs backward computation.
+I1213 10:08:51.337939   363 net.cpp:198] _plus5__plus5_0_split needs backward computation.
+I1213 10:08:51.337944   363 net.cpp:198] _plus5 needs backward computation.
+I1213 10:08:51.337949   363 net.cpp:198] stage3_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.337970   363 net.cpp:198] stage3_unit2_bn3 needs backward computation.
+I1213 10:08:51.337975   363 net.cpp:198] stage3_unit2_conv2 needs backward computation.
+I1213 10:08:51.337977   363 net.cpp:198] stage3_unit2_relu1 needs backward computation.
+I1213 10:08:51.337981   363 net.cpp:198] stage3_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.337985   363 net.cpp:198] stage3_unit2_bn2 needs backward computation.
+I1213 10:08:51.337988   363 net.cpp:198] stage3_unit2_conv1 needs backward computation.
+I1213 10:08:51.337993   363 net.cpp:198] stage3_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.337996   363 net.cpp:198] stage3_unit2_bn1 needs backward computation.
+I1213 10:08:51.338001   363 net.cpp:198] _plus4__plus4_0_split needs backward computation.
+I1213 10:08:51.338004   363 net.cpp:198] _plus4 needs backward computation.
+I1213 10:08:51.338008   363 net.cpp:198] stage3_unit1_sc_scale needs backward computation.
+I1213 10:08:51.338011   363 net.cpp:198] stage3_unit1_sc needs backward computation.
+I1213 10:08:51.338016   363 net.cpp:198] stage3_unit1_conv1sc needs backward computation.
+I1213 10:08:51.338019   363 net.cpp:198] stage3_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.338022   363 net.cpp:198] stage3_unit1_bn3 needs backward computation.
+I1213 10:08:51.338027   363 net.cpp:198] stage3_unit1_conv2 needs backward computation.
+I1213 10:08:51.338030   363 net.cpp:198] stage3_unit1_relu1 needs backward computation.
+I1213 10:08:51.338034   363 net.cpp:198] stage3_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.338037   363 net.cpp:198] stage3_unit1_bn2 needs backward computation.
+I1213 10:08:51.338040   363 net.cpp:198] stage3_unit1_conv1 needs backward computation.
+I1213 10:08:51.338045   363 net.cpp:198] stage3_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.338049   363 net.cpp:198] stage3_unit1_bn1 needs backward computation.
+I1213 10:08:51.338053   363 net.cpp:198] _plus3__plus3_0_split needs backward computation.
+I1213 10:08:51.338057   363 net.cpp:198] _plus3 needs backward computation.
+I1213 10:08:51.338061   363 net.cpp:198] stage2_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.338064   363 net.cpp:198] stage2_unit2_bn3 needs backward computation.
+I1213 10:08:51.338068   363 net.cpp:198] stage2_unit2_conv2 needs backward computation.
+I1213 10:08:51.338073   363 net.cpp:198] stage2_unit2_relu1 needs backward computation.
+I1213 10:08:51.338075   363 net.cpp:198] stage2_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.338079   363 net.cpp:198] stage2_unit2_bn2 needs backward computation.
+I1213 10:08:51.338083   363 net.cpp:198] stage2_unit2_conv1 needs backward computation.
+I1213 10:08:51.338086   363 net.cpp:198] stage2_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.338089   363 net.cpp:198] stage2_unit2_bn1 needs backward computation.
+I1213 10:08:51.338093   363 net.cpp:198] _plus2__plus2_0_split needs backward computation.
+I1213 10:08:51.338097   363 net.cpp:198] _plus2 needs backward computation.
+I1213 10:08:51.338101   363 net.cpp:198] stage2_unit1_sc_scale needs backward computation.
+I1213 10:08:51.338104   363 net.cpp:198] stage2_unit1_sc needs backward computation.
+I1213 10:08:51.338109   363 net.cpp:198] stage2_unit1_conv1sc needs backward computation.
+I1213 10:08:51.338112   363 net.cpp:198] stage2_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.338116   363 net.cpp:198] stage2_unit1_bn3 needs backward computation.
+I1213 10:08:51.338119   363 net.cpp:198] stage2_unit1_conv2 needs backward computation.
+I1213 10:08:51.338124   363 net.cpp:198] stage2_unit1_relu1 needs backward computation.
+I1213 10:08:51.338127   363 net.cpp:198] stage2_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.338130   363 net.cpp:198] stage2_unit1_bn2 needs backward computation.
+I1213 10:08:51.338135   363 net.cpp:198] stage2_unit1_conv1 needs backward computation.
+I1213 10:08:51.338138   363 net.cpp:198] stage2_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.338141   363 net.cpp:198] stage2_unit1_bn1 needs backward computation.
+I1213 10:08:51.338145   363 net.cpp:198] _plus1__plus1_0_split needs backward computation.
+I1213 10:08:51.338150   363 net.cpp:198] _plus1 needs backward computation.
+I1213 10:08:51.338155   363 net.cpp:198] stage1_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.338158   363 net.cpp:198] stage1_unit2_bn3 needs backward computation.
+I1213 10:08:51.338161   363 net.cpp:198] stage1_unit2_conv2 needs backward computation.
+I1213 10:08:51.338165   363 net.cpp:198] stage1_unit2_relu1 needs backward computation.
+I1213 10:08:51.338169   363 net.cpp:198] stage1_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.338172   363 net.cpp:198] stage1_unit2_bn2 needs backward computation.
+I1213 10:08:51.338176   363 net.cpp:198] stage1_unit2_conv1 needs backward computation.
+I1213 10:08:51.338179   363 net.cpp:198] stage1_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.338183   363 net.cpp:198] stage1_unit2_bn1 needs backward computation.
+I1213 10:08:51.338187   363 net.cpp:198] _plus0__plus0_0_split needs backward computation.
+I1213 10:08:51.338191   363 net.cpp:198] _plus0 needs backward computation.
+I1213 10:08:51.338194   363 net.cpp:198] stage1_unit1_sc_scale needs backward computation.
+I1213 10:08:51.338198   363 net.cpp:198] stage1_unit1_sc needs backward computation.
+I1213 10:08:51.338202   363 net.cpp:198] stage1_unit1_conv1sc needs backward computation.
+I1213 10:08:51.338205   363 net.cpp:198] stage1_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.338209   363 net.cpp:198] stage1_unit1_bn3 needs backward computation.
+I1213 10:08:51.338213   363 net.cpp:198] stage1_unit1_conv2 needs backward computation.
+I1213 10:08:51.338217   363 net.cpp:198] stage1_unit1_relu1 needs backward computation.
+I1213 10:08:51.338220   363 net.cpp:198] stage1_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.338225   363 net.cpp:198] stage1_unit1_bn2 needs backward computation.
+I1213 10:08:51.338230   363 net.cpp:198] stage1_unit1_conv1 needs backward computation.
+I1213 10:08:51.338233   363 net.cpp:198] stage1_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.338238   363 net.cpp:198] stage1_unit1_bn1 needs backward computation.
+I1213 10:08:51.338240   363 net.cpp:198] relu0_relu0_0_split needs backward computation.
+I1213 10:08:51.338245   363 net.cpp:198] relu0 needs backward computation.
+I1213 10:08:51.338248   363 net.cpp:198] bn0_scale needs backward computation.
+I1213 10:08:51.338253   363 net.cpp:198] bn0 needs backward computation.
+I1213 10:08:51.338255   363 net.cpp:198] conv0 needs backward computation.
+I1213 10:08:51.338260   363 net.cpp:200] data does not need backward computation.
+I1213 10:08:51.338263   363 net.cpp:242] This network produces output loss
+I1213 10:08:51.338330   363 net.cpp:255] Network initialization done.
+I1213 10:08:51.339395   363 solver.cpp:172] Creating test net (#0) specified by net file: r18_train_val.prototxt
+I1213 10:08:51.339572   363 net.cpp:294] The NetState phase (1) differed from the phase (0) specified by a rule in layer data
+I1213 10:08:51.340682   363 net.cpp:51] Initializing net from parameters: 
+state {
+  phase: TEST
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    scale: 0.0078125
+    mirror: true
+    mean_value: 127
+  }
+  data_param {
+    source: "/home/lc/gender/dushanzi/data/val.lmdb"
+    batch_size: 16
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv0"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv0"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "bn0"
+  type: "BatchNorm"
+  bottom: "conv0"
+  top: "bn0"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "bn0_scale"
+  type: "Scale"
+  bottom: "bn0"
+  top: "bn0"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "relu0"
+  type: "ReLU"
+  bottom: "bn0"
+  top: "relu0"
+}
+layer {
+  name: "stage1_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "relu0"
+  top: "stage1_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn1"
+  top: "stage1_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage1_unit1_bn1"
+  top: "stage1_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv1"
+  top: "stage1_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn2"
+  top: "stage1_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage1_unit1_bn2"
+  top: "stage1_unit1_relu1"
+}
+layer {
+  name: "stage1_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage1_unit1_relu1"
+  top: "stage1_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv2"
+  top: "stage1_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_bn3"
+  top: "stage1_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "relu0"
+  top: "stage1_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage1_unit1_conv1sc"
+  top: "stage1_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage1_unit1_sc"
+  top: "stage1_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus0"
+  type: "Eltwise"
+  bottom: "stage1_unit1_bn3"
+  bottom: "stage1_unit1_sc"
+  top: "_plus0"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage1_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus0"
+  top: "stage1_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn1"
+  top: "stage1_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage1_unit2_bn1"
+  top: "stage1_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage1_unit2_conv1"
+  top: "stage1_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn2"
+  top: "stage1_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage1_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage1_unit2_bn2"
+  top: "stage1_unit2_relu1"
+}
+layer {
+  name: "stage1_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage1_unit2_relu1"
+  top: "stage1_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage1_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage1_unit2_conv2"
+  top: "stage1_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage1_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage1_unit2_bn3"
+  top: "stage1_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus1"
+  type: "Eltwise"
+  bottom: "stage1_unit2_bn3"
+  bottom: "_plus0"
+  top: "_plus1"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage2_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus1"
+  top: "stage2_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn1"
+  top: "stage2_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage2_unit1_bn1"
+  top: "stage2_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv1"
+  top: "stage2_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn2"
+  top: "stage2_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage2_unit1_bn2"
+  top: "stage2_unit1_relu1"
+}
+layer {
+  name: "stage2_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage2_unit1_relu1"
+  top: "stage2_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv2"
+  top: "stage2_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_bn3"
+  top: "stage2_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus1"
+  top: "stage2_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage2_unit1_conv1sc"
+  top: "stage2_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage2_unit1_sc"
+  top: "stage2_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus2"
+  type: "Eltwise"
+  bottom: "stage2_unit1_bn3"
+  bottom: "stage2_unit1_sc"
+  top: "_plus2"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage2_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus2"
+  top: "stage2_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn1"
+  top: "stage2_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage2_unit2_bn1"
+  top: "stage2_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage2_unit2_conv1"
+  top: "stage2_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn2"
+  top: "stage2_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage2_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage2_unit2_bn2"
+  top: "stage2_unit2_relu1"
+}
+layer {
+  name: "stage2_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage2_unit2_relu1"
+  top: "stage2_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage2_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage2_unit2_conv2"
+  top: "stage2_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage2_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage2_unit2_bn3"
+  top: "stage2_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus3"
+  type: "Eltwise"
+  bottom: "stage2_unit2_bn3"
+  bottom: "_plus2"
+  top: "_plus3"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage3_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus3"
+  top: "stage3_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn1"
+  top: "stage3_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage3_unit1_bn1"
+  top: "stage3_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv1"
+  top: "stage3_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn2"
+  top: "stage3_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage3_unit1_bn2"
+  top: "stage3_unit1_relu1"
+}
+layer {
+  name: "stage3_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage3_unit1_relu1"
+  top: "stage3_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv2"
+  top: "stage3_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_bn3"
+  top: "stage3_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus3"
+  top: "stage3_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage3_unit1_conv1sc"
+  top: "stage3_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage3_unit1_sc"
+  top: "stage3_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus4"
+  type: "Eltwise"
+  bottom: "stage3_unit1_bn3"
+  bottom: "stage3_unit1_sc"
+  top: "_plus4"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage3_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus4"
+  top: "stage3_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn1"
+  top: "stage3_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage3_unit2_bn1"
+  top: "stage3_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage3_unit2_conv1"
+  top: "stage3_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn2"
+  top: "stage3_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage3_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage3_unit2_bn2"
+  top: "stage3_unit2_relu1"
+}
+layer {
+  name: "stage3_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage3_unit2_relu1"
+  top: "stage3_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage3_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage3_unit2_conv2"
+  top: "stage3_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage3_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage3_unit2_bn3"
+  top: "stage3_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus5"
+  type: "Eltwise"
+  bottom: "stage3_unit2_bn3"
+  bottom: "_plus4"
+  top: "_plus5"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage4_unit1_bn1"
+  type: "BatchNorm"
+  bottom: "_plus5"
+  top: "stage4_unit1_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn1_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn1"
+  top: "stage4_unit1_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_conv1"
+  type: "Convolution"
+  bottom: "stage4_unit1_bn1"
+  top: "stage4_unit1_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_bn2"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv1"
+  top: "stage4_unit1_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn2_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn2"
+  top: "stage4_unit1_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_relu1"
+  type: "ReLU"
+  bottom: "stage4_unit1_bn2"
+  top: "stage4_unit1_relu1"
+}
+layer {
+  name: "stage4_unit1_conv2"
+  type: "Convolution"
+  bottom: "stage4_unit1_relu1"
+  top: "stage4_unit1_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_bn3"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv2"
+  top: "stage4_unit1_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_bn3_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_bn3"
+  top: "stage4_unit1_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit1_conv1sc"
+  type: "Convolution"
+  bottom: "_plus5"
+  top: "stage4_unit1_conv1sc"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    kernel_size: 1
+    stride: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit1_sc"
+  type: "BatchNorm"
+  bottom: "stage4_unit1_conv1sc"
+  top: "stage4_unit1_sc"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit1_sc_scale"
+  type: "Scale"
+  bottom: "stage4_unit1_sc"
+  top: "stage4_unit1_sc"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus6"
+  type: "Eltwise"
+  bottom: "stage4_unit1_bn3"
+  bottom: "stage4_unit1_sc"
+  top: "_plus6"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "stage4_unit2_bn1"
+  type: "BatchNorm"
+  bottom: "_plus6"
+  top: "stage4_unit2_bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn1_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn1"
+  top: "stage4_unit2_bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit2_conv1"
+  type: "Convolution"
+  bottom: "stage4_unit2_bn1"
+  top: "stage4_unit2_conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit2_bn2"
+  type: "BatchNorm"
+  bottom: "stage4_unit2_conv1"
+  top: "stage4_unit2_bn2"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn2_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn2"
+  top: "stage4_unit2_bn2"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "stage4_unit2_relu1"
+  type: "ReLU"
+  bottom: "stage4_unit2_bn2"
+  top: "stage4_unit2_relu1"
+}
+layer {
+  name: "stage4_unit2_conv2"
+  type: "Convolution"
+  bottom: "stage4_unit2_relu1"
+  top: "stage4_unit2_conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: false
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    engine: CAFFE
+  }
+}
+layer {
+  name: "stage4_unit2_bn3"
+  type: "BatchNorm"
+  bottom: "stage4_unit2_conv2"
+  top: "stage4_unit2_bn3"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "stage4_unit2_bn3_scale"
+  type: "Scale"
+  bottom: "stage4_unit2_bn3"
+  top: "stage4_unit2_bn3"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "_plus7"
+  type: "Eltwise"
+  bottom: "stage4_unit2_bn3"
+  bottom: "_plus6"
+  top: "_plus7"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "bn1"
+  type: "BatchNorm"
+  bottom: "_plus7"
+  top: "bn1"
+  batch_norm_param {
+    use_global_stats: false
+    moving_average_fraction: 0.9
+    eps: 2e-05
+  }
+}
+layer {
+  name: "bn1_scale"
+  type: "Scale"
+  bottom: "bn1"
+  top: "bn1"
+  scale_param {
+    bias_term: true
+  }
+}
+layer {
+  name: "fc8"
+  type: "InnerProduct"
+  bottom: "bn1"
+  top: "fc8"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "msra"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "accuracy"
+  type: "Accuracy"
+  bottom: "fc8"
+  bottom: "label"
+  top: "accuracy"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "loss"
+  type: "WeightedSoftmaxWithLoss"
+  bottom: "fc8"
+  bottom: "label"
+  top: "loss"
+  softmax_param {
+    pos_mult: 5
+    pos_cid: 1
+  }
+}
+I1213 10:08:51.341305   363 layer_factory.hpp:77] Creating layer data
+I1213 10:08:51.341393   363 db_lmdb.cpp:35] Opened lmdb /home/lc/gender/dushanzi/data/val.lmdb
+I1213 10:08:51.341436   363 net.cpp:84] Creating Layer data
+I1213 10:08:51.341445   363 net.cpp:380] data -> data
+I1213 10:08:51.341459   363 net.cpp:380] data -> label
+I1213 10:08:51.341774   363 data_layer.cpp:45] output data size: 16,3,200,200
+I1213 10:08:51.361820   363 net.cpp:122] Setting up data
+I1213 10:08:51.361865   363 net.cpp:129] Top shape: 16 3 200 200 (1920000)
+I1213 10:08:51.361871   363 net.cpp:129] Top shape: 16 (16)
+I1213 10:08:51.361874   363 net.cpp:137] Memory required for data: 7680064
+I1213 10:08:51.361881   363 layer_factory.hpp:77] Creating layer label_data_1_split
+I1213 10:08:51.361896   363 net.cpp:84] Creating Layer label_data_1_split
+I1213 10:08:51.361899   363 net.cpp:406] label_data_1_split <- label
+I1213 10:08:51.361909   363 net.cpp:380] label_data_1_split -> label_data_1_split_0
+I1213 10:08:51.361938   363 net.cpp:380] label_data_1_split -> label_data_1_split_1
+I1213 10:08:51.362094   363 net.cpp:122] Setting up label_data_1_split
+I1213 10:08:51.362103   363 net.cpp:129] Top shape: 16 (16)
+I1213 10:08:51.362108   363 net.cpp:129] Top shape: 16 (16)
+I1213 10:08:51.362112   363 net.cpp:137] Memory required for data: 7680192
+I1213 10:08:51.362115   363 layer_factory.hpp:77] Creating layer conv0
+I1213 10:08:51.362130   363 net.cpp:84] Creating Layer conv0
+I1213 10:08:51.362135   363 net.cpp:406] conv0 <- data
+I1213 10:08:51.362143   363 net.cpp:380] conv0 -> conv0
+I1213 10:08:51.362488   363 net.cpp:122] Setting up conv0
+I1213 10:08:51.362498   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.362516   363 net.cpp:137] Memory required for data: 171520192
+I1213 10:08:51.362529   363 layer_factory.hpp:77] Creating layer bn0
+I1213 10:08:51.362558   363 net.cpp:84] Creating Layer bn0
+I1213 10:08:51.362563   363 net.cpp:406] bn0 <- conv0
+I1213 10:08:51.362573   363 net.cpp:380] bn0 -> bn0
+I1213 10:08:51.362908   363 net.cpp:122] Setting up bn0
+I1213 10:08:51.362917   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.362936   363 net.cpp:137] Memory required for data: 335360192
+I1213 10:08:51.362967   363 layer_factory.hpp:77] Creating layer bn0_scale
+I1213 10:08:51.362990   363 net.cpp:84] Creating Layer bn0_scale
+I1213 10:08:51.362995   363 net.cpp:406] bn0_scale <- bn0
+I1213 10:08:51.363001   363 net.cpp:367] bn0_scale -> bn0 (in-place)
+I1213 10:08:51.363044   363 layer_factory.hpp:77] Creating layer bn0_scale
+I1213 10:08:51.363265   363 net.cpp:122] Setting up bn0_scale
+I1213 10:08:51.363292   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.363296   363 net.cpp:137] Memory required for data: 499200192
+I1213 10:08:51.363318   363 layer_factory.hpp:77] Creating layer relu0
+I1213 10:08:51.363343   363 net.cpp:84] Creating Layer relu0
+I1213 10:08:51.363345   363 net.cpp:406] relu0 <- bn0
+I1213 10:08:51.363365   363 net.cpp:380] relu0 -> relu0
+I1213 10:08:51.363824   363 net.cpp:122] Setting up relu0
+I1213 10:08:51.363837   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.363855   363 net.cpp:137] Memory required for data: 663040192
+I1213 10:08:51.363859   363 layer_factory.hpp:77] Creating layer relu0_relu0_0_split
+I1213 10:08:51.363865   363 net.cpp:84] Creating Layer relu0_relu0_0_split
+I1213 10:08:51.363869   363 net.cpp:406] relu0_relu0_0_split <- relu0
+I1213 10:08:51.363878   363 net.cpp:380] relu0_relu0_0_split -> relu0_relu0_0_split_0
+I1213 10:08:51.363884   363 net.cpp:380] relu0_relu0_0_split -> relu0_relu0_0_split_1
+I1213 10:08:51.363951   363 net.cpp:122] Setting up relu0_relu0_0_split
+I1213 10:08:51.363958   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.363963   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.363966   363 net.cpp:137] Memory required for data: 990720192
+I1213 10:08:51.363970   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1
+I1213 10:08:51.363976   363 net.cpp:84] Creating Layer stage1_unit1_bn1
+I1213 10:08:51.363981   363 net.cpp:406] stage1_unit1_bn1 <- relu0_relu0_0_split_0
+I1213 10:08:51.363986   363 net.cpp:380] stage1_unit1_bn1 -> stage1_unit1_bn1
+I1213 10:08:51.364907   363 net.cpp:122] Setting up stage1_unit1_bn1
+I1213 10:08:51.364917   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.364934   363 net.cpp:137] Memory required for data: 1154560192
+I1213 10:08:51.364945   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1_scale
+I1213 10:08:51.364954   363 net.cpp:84] Creating Layer stage1_unit1_bn1_scale
+I1213 10:08:51.364959   363 net.cpp:406] stage1_unit1_bn1_scale <- stage1_unit1_bn1
+I1213 10:08:51.364964   363 net.cpp:367] stage1_unit1_bn1_scale -> stage1_unit1_bn1 (in-place)
+I1213 10:08:51.365025   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn1_scale
+I1213 10:08:51.365252   363 net.cpp:122] Setting up stage1_unit1_bn1_scale
+I1213 10:08:51.365262   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.365265   363 net.cpp:137] Memory required for data: 1318400192
+I1213 10:08:51.365272   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv1
+I1213 10:08:51.365283   363 net.cpp:84] Creating Layer stage1_unit1_conv1
+I1213 10:08:51.365288   363 net.cpp:406] stage1_unit1_conv1 <- stage1_unit1_bn1
+I1213 10:08:51.365295   363 net.cpp:380] stage1_unit1_conv1 -> stage1_unit1_conv1
+I1213 10:08:51.365954   363 net.cpp:122] Setting up stage1_unit1_conv1
+I1213 10:08:51.365963   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.365967   363 net.cpp:137] Memory required for data: 1482240192
+I1213 10:08:51.365988   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2
+I1213 10:08:51.365994   363 net.cpp:84] Creating Layer stage1_unit1_bn2
+I1213 10:08:51.365998   363 net.cpp:406] stage1_unit1_bn2 <- stage1_unit1_conv1
+I1213 10:08:51.366003   363 net.cpp:380] stage1_unit1_bn2 -> stage1_unit1_bn2
+I1213 10:08:51.366266   363 net.cpp:122] Setting up stage1_unit1_bn2
+I1213 10:08:51.366273   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.366277   363 net.cpp:137] Memory required for data: 1646080192
+I1213 10:08:51.366286   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2_scale
+I1213 10:08:51.366292   363 net.cpp:84] Creating Layer stage1_unit1_bn2_scale
+I1213 10:08:51.366295   363 net.cpp:406] stage1_unit1_bn2_scale <- stage1_unit1_bn2
+I1213 10:08:51.366300   363 net.cpp:367] stage1_unit1_bn2_scale -> stage1_unit1_bn2 (in-place)
+I1213 10:08:51.366341   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn2_scale
+I1213 10:08:51.366555   363 net.cpp:122] Setting up stage1_unit1_bn2_scale
+I1213 10:08:51.366564   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.366567   363 net.cpp:137] Memory required for data: 1809920192
+I1213 10:08:51.366578   363 layer_factory.hpp:77] Creating layer stage1_unit1_relu1
+I1213 10:08:51.366585   363 net.cpp:84] Creating Layer stage1_unit1_relu1
+I1213 10:08:51.366590   363 net.cpp:406] stage1_unit1_relu1 <- stage1_unit1_bn2
+I1213 10:08:51.366595   363 net.cpp:380] stage1_unit1_relu1 -> stage1_unit1_relu1
+I1213 10:08:51.366730   363 net.cpp:122] Setting up stage1_unit1_relu1
+I1213 10:08:51.366742   363 net.cpp:129] Top shape: 16 64 200 200 (40960000)
+I1213 10:08:51.366746   363 net.cpp:137] Memory required for data: 1973760192
+I1213 10:08:51.366750   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv2
+I1213 10:08:51.366761   363 net.cpp:84] Creating Layer stage1_unit1_conv2
+I1213 10:08:51.366766   363 net.cpp:406] stage1_unit1_conv2 <- stage1_unit1_relu1
+I1213 10:08:51.366773   363 net.cpp:380] stage1_unit1_conv2 -> stage1_unit1_conv2
+I1213 10:08:51.367404   363 net.cpp:122] Setting up stage1_unit1_conv2
+I1213 10:08:51.367413   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.367430   363 net.cpp:137] Memory required for data: 2014720192
+I1213 10:08:51.367436   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3
+I1213 10:08:51.367441   363 net.cpp:84] Creating Layer stage1_unit1_bn3
+I1213 10:08:51.367445   363 net.cpp:406] stage1_unit1_bn3 <- stage1_unit1_conv2
+I1213 10:08:51.367450   363 net.cpp:380] stage1_unit1_bn3 -> stage1_unit1_bn3
+I1213 10:08:51.367700   363 net.cpp:122] Setting up stage1_unit1_bn3
+I1213 10:08:51.367709   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.367713   363 net.cpp:137] Memory required for data: 2055680192
+I1213 10:08:51.367722   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3_scale
+I1213 10:08:51.367727   363 net.cpp:84] Creating Layer stage1_unit1_bn3_scale
+I1213 10:08:51.367731   363 net.cpp:406] stage1_unit1_bn3_scale <- stage1_unit1_bn3
+I1213 10:08:51.367738   363 net.cpp:367] stage1_unit1_bn3_scale -> stage1_unit1_bn3 (in-place)
+I1213 10:08:51.367786   363 layer_factory.hpp:77] Creating layer stage1_unit1_bn3_scale
+I1213 10:08:51.367939   363 net.cpp:122] Setting up stage1_unit1_bn3_scale
+I1213 10:08:51.367949   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.367954   363 net.cpp:137] Memory required for data: 2096640192
+I1213 10:08:51.367960   363 layer_factory.hpp:77] Creating layer stage1_unit1_conv1sc
+I1213 10:08:51.367970   363 net.cpp:84] Creating Layer stage1_unit1_conv1sc
+I1213 10:08:51.367975   363 net.cpp:406] stage1_unit1_conv1sc <- relu0_relu0_0_split_1
+I1213 10:08:51.367982   363 net.cpp:380] stage1_unit1_conv1sc -> stage1_unit1_conv1sc
+I1213 10:08:51.368223   363 net.cpp:122] Setting up stage1_unit1_conv1sc
+I1213 10:08:51.368232   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.368235   363 net.cpp:137] Memory required for data: 2137600192
+I1213 10:08:51.368242   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc
+I1213 10:08:51.368248   363 net.cpp:84] Creating Layer stage1_unit1_sc
+I1213 10:08:51.368252   363 net.cpp:406] stage1_unit1_sc <- stage1_unit1_conv1sc
+I1213 10:08:51.368257   363 net.cpp:380] stage1_unit1_sc -> stage1_unit1_sc
+I1213 10:08:51.368491   363 net.cpp:122] Setting up stage1_unit1_sc
+I1213 10:08:51.368499   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.368504   363 net.cpp:137] Memory required for data: 2178560192
+I1213 10:08:51.368511   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc_scale
+I1213 10:08:51.368517   363 net.cpp:84] Creating Layer stage1_unit1_sc_scale
+I1213 10:08:51.368520   363 net.cpp:406] stage1_unit1_sc_scale <- stage1_unit1_sc
+I1213 10:08:51.368525   363 net.cpp:367] stage1_unit1_sc_scale -> stage1_unit1_sc (in-place)
+I1213 10:08:51.368567   363 layer_factory.hpp:77] Creating layer stage1_unit1_sc_scale
+I1213 10:08:51.369791   363 net.cpp:122] Setting up stage1_unit1_sc_scale
+I1213 10:08:51.369805   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.369820   363 net.cpp:137] Memory required for data: 2219520192
+I1213 10:08:51.369828   363 layer_factory.hpp:77] Creating layer _plus0
+I1213 10:08:51.369837   363 net.cpp:84] Creating Layer _plus0
+I1213 10:08:51.369855   363 net.cpp:406] _plus0 <- stage1_unit1_bn3
+I1213 10:08:51.369859   363 net.cpp:406] _plus0 <- stage1_unit1_sc
+I1213 10:08:51.369865   363 net.cpp:380] _plus0 -> _plus0
+I1213 10:08:51.369897   363 net.cpp:122] Setting up _plus0
+I1213 10:08:51.369905   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.369908   363 net.cpp:137] Memory required for data: 2260480192
+I1213 10:08:51.369912   363 layer_factory.hpp:77] Creating layer _plus0__plus0_0_split
+I1213 10:08:51.369922   363 net.cpp:84] Creating Layer _plus0__plus0_0_split
+I1213 10:08:51.369927   363 net.cpp:406] _plus0__plus0_0_split <- _plus0
+I1213 10:08:51.369932   363 net.cpp:380] _plus0__plus0_0_split -> _plus0__plus0_0_split_0
+I1213 10:08:51.369940   363 net.cpp:380] _plus0__plus0_0_split -> _plus0__plus0_0_split_1
+I1213 10:08:51.369979   363 net.cpp:122] Setting up _plus0__plus0_0_split
+I1213 10:08:51.369987   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.369992   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.369994   363 net.cpp:137] Memory required for data: 2342400192
+I1213 10:08:51.369998   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1
+I1213 10:08:51.370004   363 net.cpp:84] Creating Layer stage1_unit2_bn1
+I1213 10:08:51.370007   363 net.cpp:406] stage1_unit2_bn1 <- _plus0__plus0_0_split_0
+I1213 10:08:51.370015   363 net.cpp:380] stage1_unit2_bn1 -> stage1_unit2_bn1
+I1213 10:08:51.370239   363 net.cpp:122] Setting up stage1_unit2_bn1
+I1213 10:08:51.370246   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.370250   363 net.cpp:137] Memory required for data: 2383360192
+I1213 10:08:51.370259   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1_scale
+I1213 10:08:51.370266   363 net.cpp:84] Creating Layer stage1_unit2_bn1_scale
+I1213 10:08:51.370270   363 net.cpp:406] stage1_unit2_bn1_scale <- stage1_unit2_bn1
+I1213 10:08:51.370275   363 net.cpp:367] stage1_unit2_bn1_scale -> stage1_unit2_bn1 (in-place)
+I1213 10:08:51.370314   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn1_scale
+I1213 10:08:51.370447   363 net.cpp:122] Setting up stage1_unit2_bn1_scale
+I1213 10:08:51.370455   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.370460   363 net.cpp:137] Memory required for data: 2424320192
+I1213 10:08:51.370471   363 layer_factory.hpp:77] Creating layer stage1_unit2_conv1
+I1213 10:08:51.370486   363 net.cpp:84] Creating Layer stage1_unit2_conv1
+I1213 10:08:51.370491   363 net.cpp:406] stage1_unit2_conv1 <- stage1_unit2_bn1
+I1213 10:08:51.370497   363 net.cpp:380] stage1_unit2_conv1 -> stage1_unit2_conv1
+I1213 10:08:51.371124   363 net.cpp:122] Setting up stage1_unit2_conv1
+I1213 10:08:51.371134   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.371153   363 net.cpp:137] Memory required for data: 2465280192
+I1213 10:08:51.371160   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2
+I1213 10:08:51.371167   363 net.cpp:84] Creating Layer stage1_unit2_bn2
+I1213 10:08:51.371171   363 net.cpp:406] stage1_unit2_bn2 <- stage1_unit2_conv1
+I1213 10:08:51.371176   363 net.cpp:380] stage1_unit2_bn2 -> stage1_unit2_bn2
+I1213 10:08:51.371377   363 net.cpp:122] Setting up stage1_unit2_bn2
+I1213 10:08:51.371385   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.371389   363 net.cpp:137] Memory required for data: 2506240192
+I1213 10:08:51.371397   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2_scale
+I1213 10:08:51.371405   363 net.cpp:84] Creating Layer stage1_unit2_bn2_scale
+I1213 10:08:51.371409   363 net.cpp:406] stage1_unit2_bn2_scale <- stage1_unit2_bn2
+I1213 10:08:51.371414   363 net.cpp:367] stage1_unit2_bn2_scale -> stage1_unit2_bn2 (in-place)
+I1213 10:08:51.371454   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn2_scale
+I1213 10:08:51.371589   363 net.cpp:122] Setting up stage1_unit2_bn2_scale
+I1213 10:08:51.371603   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.371608   363 net.cpp:137] Memory required for data: 2547200192
+I1213 10:08:51.371613   363 layer_factory.hpp:77] Creating layer stage1_unit2_relu1
+I1213 10:08:51.371621   363 net.cpp:84] Creating Layer stage1_unit2_relu1
+I1213 10:08:51.371624   363 net.cpp:406] stage1_unit2_relu1 <- stage1_unit2_bn2
+I1213 10:08:51.371631   363 net.cpp:380] stage1_unit2_relu1 -> stage1_unit2_relu1
+I1213 10:08:51.371985   363 net.cpp:122] Setting up stage1_unit2_relu1
+I1213 10:08:51.371997   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.372016   363 net.cpp:137] Memory required for data: 2588160192
+I1213 10:08:51.372020   363 layer_factory.hpp:77] Creating layer stage1_unit2_conv2
+I1213 10:08:51.372030   363 net.cpp:84] Creating Layer stage1_unit2_conv2
+I1213 10:08:51.372035   363 net.cpp:406] stage1_unit2_conv2 <- stage1_unit2_relu1
+I1213 10:08:51.372042   363 net.cpp:380] stage1_unit2_conv2 -> stage1_unit2_conv2
+I1213 10:08:51.372690   363 net.cpp:122] Setting up stage1_unit2_conv2
+I1213 10:08:51.372699   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.372717   363 net.cpp:137] Memory required for data: 2629120192
+I1213 10:08:51.372723   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3
+I1213 10:08:51.372730   363 net.cpp:84] Creating Layer stage1_unit2_bn3
+I1213 10:08:51.372733   363 net.cpp:406] stage1_unit2_bn3 <- stage1_unit2_conv2
+I1213 10:08:51.372740   363 net.cpp:380] stage1_unit2_bn3 -> stage1_unit2_bn3
+I1213 10:08:51.372975   363 net.cpp:122] Setting up stage1_unit2_bn3
+I1213 10:08:51.372983   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.372987   363 net.cpp:137] Memory required for data: 2670080192
+I1213 10:08:51.372995   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3_scale
+I1213 10:08:51.373003   363 net.cpp:84] Creating Layer stage1_unit2_bn3_scale
+I1213 10:08:51.373009   363 net.cpp:406] stage1_unit2_bn3_scale <- stage1_unit2_bn3
+I1213 10:08:51.373014   363 net.cpp:367] stage1_unit2_bn3_scale -> stage1_unit2_bn3 (in-place)
+I1213 10:08:51.373052   363 layer_factory.hpp:77] Creating layer stage1_unit2_bn3_scale
+I1213 10:08:51.373178   363 net.cpp:122] Setting up stage1_unit2_bn3_scale
+I1213 10:08:51.373186   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373190   363 net.cpp:137] Memory required for data: 2711040192
+I1213 10:08:51.373198   363 layer_factory.hpp:77] Creating layer _plus1
+I1213 10:08:51.373205   363 net.cpp:84] Creating Layer _plus1
+I1213 10:08:51.373211   363 net.cpp:406] _plus1 <- stage1_unit2_bn3
+I1213 10:08:51.373215   363 net.cpp:406] _plus1 <- _plus0__plus0_0_split_1
+I1213 10:08:51.373220   363 net.cpp:380] _plus1 -> _plus1
+I1213 10:08:51.373247   363 net.cpp:122] Setting up _plus1
+I1213 10:08:51.373255   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373257   363 net.cpp:137] Memory required for data: 2752000192
+I1213 10:08:51.373261   363 layer_factory.hpp:77] Creating layer _plus1__plus1_0_split
+I1213 10:08:51.373267   363 net.cpp:84] Creating Layer _plus1__plus1_0_split
+I1213 10:08:51.373270   363 net.cpp:406] _plus1__plus1_0_split <- _plus1
+I1213 10:08:51.373278   363 net.cpp:380] _plus1__plus1_0_split -> _plus1__plus1_0_split_0
+I1213 10:08:51.373303   363 net.cpp:380] _plus1__plus1_0_split -> _plus1__plus1_0_split_1
+I1213 10:08:51.373337   363 net.cpp:122] Setting up _plus1__plus1_0_split
+I1213 10:08:51.373344   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373349   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373353   363 net.cpp:137] Memory required for data: 2833920192
+I1213 10:08:51.373355   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1
+I1213 10:08:51.373366   363 net.cpp:84] Creating Layer stage2_unit1_bn1
+I1213 10:08:51.373370   363 net.cpp:406] stage2_unit1_bn1 <- _plus1__plus1_0_split_0
+I1213 10:08:51.373376   363 net.cpp:380] stage2_unit1_bn1 -> stage2_unit1_bn1
+I1213 10:08:51.373565   363 net.cpp:122] Setting up stage2_unit1_bn1
+I1213 10:08:51.373574   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373576   363 net.cpp:137] Memory required for data: 2874880192
+I1213 10:08:51.373584   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1_scale
+I1213 10:08:51.373589   363 net.cpp:84] Creating Layer stage2_unit1_bn1_scale
+I1213 10:08:51.373594   363 net.cpp:406] stage2_unit1_bn1_scale <- stage2_unit1_bn1
+I1213 10:08:51.373600   363 net.cpp:367] stage2_unit1_bn1_scale -> stage2_unit1_bn1 (in-place)
+I1213 10:08:51.373636   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn1_scale
+I1213 10:08:51.373761   363 net.cpp:122] Setting up stage2_unit1_bn1_scale
+I1213 10:08:51.373770   363 net.cpp:129] Top shape: 16 64 100 100 (10240000)
+I1213 10:08:51.373776   363 net.cpp:137] Memory required for data: 2915840192
+I1213 10:08:51.373782   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv1
+I1213 10:08:51.373791   363 net.cpp:84] Creating Layer stage2_unit1_conv1
+I1213 10:08:51.373796   363 net.cpp:406] stage2_unit1_conv1 <- stage2_unit1_bn1
+I1213 10:08:51.373805   363 net.cpp:380] stage2_unit1_conv1 -> stage2_unit1_conv1
+I1213 10:08:51.374768   363 net.cpp:122] Setting up stage2_unit1_conv1
+I1213 10:08:51.374776   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.374781   363 net.cpp:137] Memory required for data: 2997760192
+I1213 10:08:51.374786   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2
+I1213 10:08:51.374794   363 net.cpp:84] Creating Layer stage2_unit1_bn2
+I1213 10:08:51.374797   363 net.cpp:406] stage2_unit1_bn2 <- stage2_unit1_conv1
+I1213 10:08:51.374804   363 net.cpp:380] stage2_unit1_bn2 -> stage2_unit1_bn2
+I1213 10:08:51.375028   363 net.cpp:122] Setting up stage2_unit1_bn2
+I1213 10:08:51.375036   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.375039   363 net.cpp:137] Memory required for data: 3079680192
+I1213 10:08:51.375047   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2_scale
+I1213 10:08:51.375056   363 net.cpp:84] Creating Layer stage2_unit1_bn2_scale
+I1213 10:08:51.375058   363 net.cpp:406] stage2_unit1_bn2_scale <- stage2_unit1_bn2
+I1213 10:08:51.375063   363 net.cpp:367] stage2_unit1_bn2_scale -> stage2_unit1_bn2 (in-place)
+I1213 10:08:51.375099   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn2_scale
+I1213 10:08:51.375214   363 net.cpp:122] Setting up stage2_unit1_bn2_scale
+I1213 10:08:51.375221   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.375226   363 net.cpp:137] Memory required for data: 3161600192
+I1213 10:08:51.375232   363 layer_factory.hpp:77] Creating layer stage2_unit1_relu1
+I1213 10:08:51.375237   363 net.cpp:84] Creating Layer stage2_unit1_relu1
+I1213 10:08:51.375241   363 net.cpp:406] stage2_unit1_relu1 <- stage2_unit1_bn2
+I1213 10:08:51.375247   363 net.cpp:380] stage2_unit1_relu1 -> stage2_unit1_relu1
+I1213 10:08:51.375350   363 net.cpp:122] Setting up stage2_unit1_relu1
+I1213 10:08:51.375360   363 net.cpp:129] Top shape: 16 128 100 100 (20480000)
+I1213 10:08:51.375365   363 net.cpp:137] Memory required for data: 3243520192
+I1213 10:08:51.375368   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv2
+I1213 10:08:51.375377   363 net.cpp:84] Creating Layer stage2_unit1_conv2
+I1213 10:08:51.375380   363 net.cpp:406] stage2_unit1_conv2 <- stage2_unit1_relu1
+I1213 10:08:51.375388   363 net.cpp:380] stage2_unit1_conv2 -> stage2_unit1_conv2
+I1213 10:08:51.377025   363 net.cpp:122] Setting up stage2_unit1_conv2
+I1213 10:08:51.377033   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.377036   363 net.cpp:137] Memory required for data: 3264000192
+I1213 10:08:51.377053   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3
+I1213 10:08:51.377058   363 net.cpp:84] Creating Layer stage2_unit1_bn3
+I1213 10:08:51.377063   363 net.cpp:406] stage2_unit1_bn3 <- stage2_unit1_conv2
+I1213 10:08:51.377068   363 net.cpp:380] stage2_unit1_bn3 -> stage2_unit1_bn3
+I1213 10:08:51.377290   363 net.cpp:122] Setting up stage2_unit1_bn3
+I1213 10:08:51.377297   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.377301   363 net.cpp:137] Memory required for data: 3284480192
+I1213 10:08:51.377310   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3_scale
+I1213 10:08:51.377315   363 net.cpp:84] Creating Layer stage2_unit1_bn3_scale
+I1213 10:08:51.377318   363 net.cpp:406] stage2_unit1_bn3_scale <- stage2_unit1_bn3
+I1213 10:08:51.377324   363 net.cpp:367] stage2_unit1_bn3_scale -> stage2_unit1_bn3 (in-place)
+I1213 10:08:51.377362   363 layer_factory.hpp:77] Creating layer stage2_unit1_bn3_scale
+I1213 10:08:51.377465   363 net.cpp:122] Setting up stage2_unit1_bn3_scale
+I1213 10:08:51.377472   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.377476   363 net.cpp:137] Memory required for data: 3304960192
+I1213 10:08:51.377482   363 layer_factory.hpp:77] Creating layer stage2_unit1_conv1sc
+I1213 10:08:51.377491   363 net.cpp:84] Creating Layer stage2_unit1_conv1sc
+I1213 10:08:51.377496   363 net.cpp:406] stage2_unit1_conv1sc <- _plus1__plus1_0_split_1
+I1213 10:08:51.377504   363 net.cpp:380] stage2_unit1_conv1sc -> stage2_unit1_conv1sc
+I1213 10:08:51.377802   363 net.cpp:122] Setting up stage2_unit1_conv1sc
+I1213 10:08:51.377810   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.377813   363 net.cpp:137] Memory required for data: 3325440192
+I1213 10:08:51.377830   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc
+I1213 10:08:51.377835   363 net.cpp:84] Creating Layer stage2_unit1_sc
+I1213 10:08:51.377838   363 net.cpp:406] stage2_unit1_sc <- stage2_unit1_conv1sc
+I1213 10:08:51.377847   363 net.cpp:380] stage2_unit1_sc -> stage2_unit1_sc
+I1213 10:08:51.378034   363 net.cpp:122] Setting up stage2_unit1_sc
+I1213 10:08:51.378041   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.378044   363 net.cpp:137] Memory required for data: 3345920192
+I1213 10:08:51.378057   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc_scale
+I1213 10:08:51.378067   363 net.cpp:84] Creating Layer stage2_unit1_sc_scale
+I1213 10:08:51.378070   363 net.cpp:406] stage2_unit1_sc_scale <- stage2_unit1_sc
+I1213 10:08:51.378075   363 net.cpp:367] stage2_unit1_sc_scale -> stage2_unit1_sc (in-place)
+I1213 10:08:51.378114   363 layer_factory.hpp:77] Creating layer stage2_unit1_sc_scale
+I1213 10:08:51.378217   363 net.cpp:122] Setting up stage2_unit1_sc_scale
+I1213 10:08:51.378226   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.378229   363 net.cpp:137] Memory required for data: 3366400192
+I1213 10:08:51.378237   363 layer_factory.hpp:77] Creating layer _plus2
+I1213 10:08:51.378242   363 net.cpp:84] Creating Layer _plus2
+I1213 10:08:51.378245   363 net.cpp:406] _plus2 <- stage2_unit1_bn3
+I1213 10:08:51.378250   363 net.cpp:406] _plus2 <- stage2_unit1_sc
+I1213 10:08:51.378255   363 net.cpp:380] _plus2 -> _plus2
+I1213 10:08:51.378278   363 net.cpp:122] Setting up _plus2
+I1213 10:08:51.378284   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.378288   363 net.cpp:137] Memory required for data: 3386880192
+I1213 10:08:51.378291   363 layer_factory.hpp:77] Creating layer _plus2__plus2_0_split
+I1213 10:08:51.378298   363 net.cpp:84] Creating Layer _plus2__plus2_0_split
+I1213 10:08:51.378317   363 net.cpp:406] _plus2__plus2_0_split <- _plus2
+I1213 10:08:51.378322   363 net.cpp:380] _plus2__plus2_0_split -> _plus2__plus2_0_split_0
+I1213 10:08:51.378329   363 net.cpp:380] _plus2__plus2_0_split -> _plus2__plus2_0_split_1
+I1213 10:08:51.378368   363 net.cpp:122] Setting up _plus2__plus2_0_split
+I1213 10:08:51.378376   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.378381   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.378386   363 net.cpp:137] Memory required for data: 3427840192
+I1213 10:08:51.378389   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1
+I1213 10:08:51.378394   363 net.cpp:84] Creating Layer stage2_unit2_bn1
+I1213 10:08:51.378398   363 net.cpp:406] stage2_unit2_bn1 <- _plus2__plus2_0_split_0
+I1213 10:08:51.378404   363 net.cpp:380] stage2_unit2_bn1 -> stage2_unit2_bn1
+I1213 10:08:51.379344   363 net.cpp:122] Setting up stage2_unit2_bn1
+I1213 10:08:51.379364   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.379367   363 net.cpp:137] Memory required for data: 3448320192
+I1213 10:08:51.379377   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1_scale
+I1213 10:08:51.379403   363 net.cpp:84] Creating Layer stage2_unit2_bn1_scale
+I1213 10:08:51.379408   363 net.cpp:406] stage2_unit2_bn1_scale <- stage2_unit2_bn1
+I1213 10:08:51.379416   363 net.cpp:367] stage2_unit2_bn1_scale -> stage2_unit2_bn1 (in-place)
+I1213 10:08:51.379462   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn1_scale
+I1213 10:08:51.379572   363 net.cpp:122] Setting up stage2_unit2_bn1_scale
+I1213 10:08:51.379580   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.379583   363 net.cpp:137] Memory required for data: 3468800192
+I1213 10:08:51.379590   363 layer_factory.hpp:77] Creating layer stage2_unit2_conv1
+I1213 10:08:51.379602   363 net.cpp:84] Creating Layer stage2_unit2_conv1
+I1213 10:08:51.379606   363 net.cpp:406] stage2_unit2_conv1 <- stage2_unit2_bn1
+I1213 10:08:51.379614   363 net.cpp:380] stage2_unit2_conv1 -> stage2_unit2_conv1
+I1213 10:08:51.382285   363 net.cpp:122] Setting up stage2_unit2_conv1
+I1213 10:08:51.382304   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.382309   363 net.cpp:137] Memory required for data: 3489280192
+I1213 10:08:51.382331   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2
+I1213 10:08:51.382341   363 net.cpp:84] Creating Layer stage2_unit2_bn2
+I1213 10:08:51.382347   363 net.cpp:406] stage2_unit2_bn2 <- stage2_unit2_conv1
+I1213 10:08:51.382352   363 net.cpp:380] stage2_unit2_bn2 -> stage2_unit2_bn2
+I1213 10:08:51.382542   363 net.cpp:122] Setting up stage2_unit2_bn2
+I1213 10:08:51.382550   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.382555   363 net.cpp:137] Memory required for data: 3509760192
+I1213 10:08:51.382562   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2_scale
+I1213 10:08:51.382571   363 net.cpp:84] Creating Layer stage2_unit2_bn2_scale
+I1213 10:08:51.382575   363 net.cpp:406] stage2_unit2_bn2_scale <- stage2_unit2_bn2
+I1213 10:08:51.382581   363 net.cpp:367] stage2_unit2_bn2_scale -> stage2_unit2_bn2 (in-place)
+I1213 10:08:51.382634   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn2_scale
+I1213 10:08:51.382788   363 net.cpp:122] Setting up stage2_unit2_bn2_scale
+I1213 10:08:51.382797   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.382802   363 net.cpp:137] Memory required for data: 3530240192
+I1213 10:08:51.382809   363 layer_factory.hpp:77] Creating layer stage2_unit2_relu1
+I1213 10:08:51.382817   363 net.cpp:84] Creating Layer stage2_unit2_relu1
+I1213 10:08:51.382822   363 net.cpp:406] stage2_unit2_relu1 <- stage2_unit2_bn2
+I1213 10:08:51.382830   363 net.cpp:380] stage2_unit2_relu1 -> stage2_unit2_relu1
+I1213 10:08:51.384878   363 net.cpp:122] Setting up stage2_unit2_relu1
+I1213 10:08:51.384894   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.384897   363 net.cpp:137] Memory required for data: 3550720192
+I1213 10:08:51.384902   363 layer_factory.hpp:77] Creating layer stage2_unit2_conv2
+I1213 10:08:51.384930   363 net.cpp:84] Creating Layer stage2_unit2_conv2
+I1213 10:08:51.384953   363 net.cpp:406] stage2_unit2_conv2 <- stage2_unit2_relu1
+I1213 10:08:51.384961   363 net.cpp:380] stage2_unit2_conv2 -> stage2_unit2_conv2
+I1213 10:08:51.386687   363 net.cpp:122] Setting up stage2_unit2_conv2
+I1213 10:08:51.386701   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.386706   363 net.cpp:137] Memory required for data: 3571200192
+I1213 10:08:51.386713   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3
+I1213 10:08:51.386737   363 net.cpp:84] Creating Layer stage2_unit2_bn3
+I1213 10:08:51.386742   363 net.cpp:406] stage2_unit2_bn3 <- stage2_unit2_conv2
+I1213 10:08:51.386749   363 net.cpp:380] stage2_unit2_bn3 -> stage2_unit2_bn3
+I1213 10:08:51.386941   363 net.cpp:122] Setting up stage2_unit2_bn3
+I1213 10:08:51.386950   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.386955   363 net.cpp:137] Memory required for data: 3591680192
+I1213 10:08:51.386972   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3_scale
+I1213 10:08:51.386979   363 net.cpp:84] Creating Layer stage2_unit2_bn3_scale
+I1213 10:08:51.386984   363 net.cpp:406] stage2_unit2_bn3_scale <- stage2_unit2_bn3
+I1213 10:08:51.386991   363 net.cpp:367] stage2_unit2_bn3_scale -> stage2_unit2_bn3 (in-place)
+I1213 10:08:51.387029   363 layer_factory.hpp:77] Creating layer stage2_unit2_bn3_scale
+I1213 10:08:51.387135   363 net.cpp:122] Setting up stage2_unit2_bn3_scale
+I1213 10:08:51.387142   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387147   363 net.cpp:137] Memory required for data: 3612160192
+I1213 10:08:51.387153   363 layer_factory.hpp:77] Creating layer _plus3
+I1213 10:08:51.387161   363 net.cpp:84] Creating Layer _plus3
+I1213 10:08:51.387166   363 net.cpp:406] _plus3 <- stage2_unit2_bn3
+I1213 10:08:51.387171   363 net.cpp:406] _plus3 <- _plus2__plus2_0_split_1
+I1213 10:08:51.387178   363 net.cpp:380] _plus3 -> _plus3
+I1213 10:08:51.387202   363 net.cpp:122] Setting up _plus3
+I1213 10:08:51.387209   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387214   363 net.cpp:137] Memory required for data: 3632640192
+I1213 10:08:51.387217   363 layer_factory.hpp:77] Creating layer _plus3__plus3_0_split
+I1213 10:08:51.387223   363 net.cpp:84] Creating Layer _plus3__plus3_0_split
+I1213 10:08:51.387228   363 net.cpp:406] _plus3__plus3_0_split <- _plus3
+I1213 10:08:51.387235   363 net.cpp:380] _plus3__plus3_0_split -> _plus3__plus3_0_split_0
+I1213 10:08:51.387243   363 net.cpp:380] _plus3__plus3_0_split -> _plus3__plus3_0_split_1
+I1213 10:08:51.387276   363 net.cpp:122] Setting up _plus3__plus3_0_split
+I1213 10:08:51.387284   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387289   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387292   363 net.cpp:137] Memory required for data: 3673600192
+I1213 10:08:51.387311   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1
+I1213 10:08:51.387318   363 net.cpp:84] Creating Layer stage3_unit1_bn1
+I1213 10:08:51.387323   363 net.cpp:406] stage3_unit1_bn1 <- _plus3__plus3_0_split_0
+I1213 10:08:51.387331   363 net.cpp:380] stage3_unit1_bn1 -> stage3_unit1_bn1
+I1213 10:08:51.387527   363 net.cpp:122] Setting up stage3_unit1_bn1
+I1213 10:08:51.387535   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387540   363 net.cpp:137] Memory required for data: 3694080192
+I1213 10:08:51.387548   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1_scale
+I1213 10:08:51.387555   363 net.cpp:84] Creating Layer stage3_unit1_bn1_scale
+I1213 10:08:51.387560   363 net.cpp:406] stage3_unit1_bn1_scale <- stage3_unit1_bn1
+I1213 10:08:51.387576   363 net.cpp:367] stage3_unit1_bn1_scale -> stage3_unit1_bn1 (in-place)
+I1213 10:08:51.387615   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn1_scale
+I1213 10:08:51.387723   363 net.cpp:122] Setting up stage3_unit1_bn1_scale
+I1213 10:08:51.387732   363 net.cpp:129] Top shape: 16 128 50 50 (5120000)
+I1213 10:08:51.387735   363 net.cpp:137] Memory required for data: 3714560192
+I1213 10:08:51.387742   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv1
+I1213 10:08:51.387753   363 net.cpp:84] Creating Layer stage3_unit1_conv1
+I1213 10:08:51.387758   363 net.cpp:406] stage3_unit1_conv1 <- stage3_unit1_bn1
+I1213 10:08:51.387763   363 net.cpp:380] stage3_unit1_conv1 -> stage3_unit1_conv1
+I1213 10:08:51.392081   363 net.cpp:122] Setting up stage3_unit1_conv1
+I1213 10:08:51.392096   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.392102   363 net.cpp:137] Memory required for data: 3755520192
+I1213 10:08:51.392108   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2
+I1213 10:08:51.392117   363 net.cpp:84] Creating Layer stage3_unit1_bn2
+I1213 10:08:51.392122   363 net.cpp:406] stage3_unit1_bn2 <- stage3_unit1_conv1
+I1213 10:08:51.392128   363 net.cpp:380] stage3_unit1_bn2 -> stage3_unit1_bn2
+I1213 10:08:51.392329   363 net.cpp:122] Setting up stage3_unit1_bn2
+I1213 10:08:51.392338   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.392341   363 net.cpp:137] Memory required for data: 3796480192
+I1213 10:08:51.392350   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2_scale
+I1213 10:08:51.392357   363 net.cpp:84] Creating Layer stage3_unit1_bn2_scale
+I1213 10:08:51.392361   363 net.cpp:406] stage3_unit1_bn2_scale <- stage3_unit1_bn2
+I1213 10:08:51.392366   363 net.cpp:367] stage3_unit1_bn2_scale -> stage3_unit1_bn2 (in-place)
+I1213 10:08:51.392406   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn2_scale
+I1213 10:08:51.392510   363 net.cpp:122] Setting up stage3_unit1_bn2_scale
+I1213 10:08:51.392518   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.392521   363 net.cpp:137] Memory required for data: 3837440192
+I1213 10:08:51.392527   363 layer_factory.hpp:77] Creating layer stage3_unit1_relu1
+I1213 10:08:51.392534   363 net.cpp:84] Creating Layer stage3_unit1_relu1
+I1213 10:08:51.392539   363 net.cpp:406] stage3_unit1_relu1 <- stage3_unit1_bn2
+I1213 10:08:51.392545   363 net.cpp:380] stage3_unit1_relu1 -> stage3_unit1_relu1
+I1213 10:08:51.392652   363 net.cpp:122] Setting up stage3_unit1_relu1
+I1213 10:08:51.392663   363 net.cpp:129] Top shape: 16 256 50 50 (10240000)
+I1213 10:08:51.392668   363 net.cpp:137] Memory required for data: 3878400192
+I1213 10:08:51.392671   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv2
+I1213 10:08:51.392681   363 net.cpp:84] Creating Layer stage3_unit1_conv2
+I1213 10:08:51.392685   363 net.cpp:406] stage3_unit1_conv2 <- stage3_unit1_relu1
+I1213 10:08:51.392693   363 net.cpp:380] stage3_unit1_conv2 -> stage3_unit1_conv2
+I1213 10:08:51.400148   363 net.cpp:122] Setting up stage3_unit1_conv2
+I1213 10:08:51.400164   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.400169   363 net.cpp:137] Memory required for data: 3888640192
+I1213 10:08:51.400188   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3
+I1213 10:08:51.400218   363 net.cpp:84] Creating Layer stage3_unit1_bn3
+I1213 10:08:51.400239   363 net.cpp:406] stage3_unit1_bn3 <- stage3_unit1_conv2
+I1213 10:08:51.400246   363 net.cpp:380] stage3_unit1_bn3 -> stage3_unit1_bn3
+I1213 10:08:51.400455   363 net.cpp:122] Setting up stage3_unit1_bn3
+I1213 10:08:51.400465   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.400470   363 net.cpp:137] Memory required for data: 3898880192
+I1213 10:08:51.400478   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3_scale
+I1213 10:08:51.400487   363 net.cpp:84] Creating Layer stage3_unit1_bn3_scale
+I1213 10:08:51.400492   363 net.cpp:406] stage3_unit1_bn3_scale <- stage3_unit1_bn3
+I1213 10:08:51.400498   363 net.cpp:367] stage3_unit1_bn3_scale -> stage3_unit1_bn3 (in-place)
+I1213 10:08:51.400540   363 layer_factory.hpp:77] Creating layer stage3_unit1_bn3_scale
+I1213 10:08:51.400651   363 net.cpp:122] Setting up stage3_unit1_bn3_scale
+I1213 10:08:51.400661   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.400666   363 net.cpp:137] Memory required for data: 3909120192
+I1213 10:08:51.400673   363 layer_factory.hpp:77] Creating layer stage3_unit1_conv1sc
+I1213 10:08:51.400682   363 net.cpp:84] Creating Layer stage3_unit1_conv1sc
+I1213 10:08:51.400687   363 net.cpp:406] stage3_unit1_conv1sc <- _plus3__plus3_0_split_1
+I1213 10:08:51.400696   363 net.cpp:380] stage3_unit1_conv1sc -> stage3_unit1_conv1sc
+I1213 10:08:51.401263   363 net.cpp:122] Setting up stage3_unit1_conv1sc
+I1213 10:08:51.401273   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401276   363 net.cpp:137] Memory required for data: 3919360192
+I1213 10:08:51.401281   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc
+I1213 10:08:51.401304   363 net.cpp:84] Creating Layer stage3_unit1_sc
+I1213 10:08:51.401309   363 net.cpp:406] stage3_unit1_sc <- stage3_unit1_conv1sc
+I1213 10:08:51.401316   363 net.cpp:380] stage3_unit1_sc -> stage3_unit1_sc
+I1213 10:08:51.401510   363 net.cpp:122] Setting up stage3_unit1_sc
+I1213 10:08:51.401517   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401522   363 net.cpp:137] Memory required for data: 3929600192
+I1213 10:08:51.401530   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc_scale
+I1213 10:08:51.401536   363 net.cpp:84] Creating Layer stage3_unit1_sc_scale
+I1213 10:08:51.401540   363 net.cpp:406] stage3_unit1_sc_scale <- stage3_unit1_sc
+I1213 10:08:51.401548   363 net.cpp:367] stage3_unit1_sc_scale -> stage3_unit1_sc (in-place)
+I1213 10:08:51.401583   363 layer_factory.hpp:77] Creating layer stage3_unit1_sc_scale
+I1213 10:08:51.401686   363 net.cpp:122] Setting up stage3_unit1_sc_scale
+I1213 10:08:51.401695   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401700   363 net.cpp:137] Memory required for data: 3939840192
+I1213 10:08:51.401705   363 layer_factory.hpp:77] Creating layer _plus4
+I1213 10:08:51.401715   363 net.cpp:84] Creating Layer _plus4
+I1213 10:08:51.401720   363 net.cpp:406] _plus4 <- stage3_unit1_bn3
+I1213 10:08:51.401723   363 net.cpp:406] _plus4 <- stage3_unit1_sc
+I1213 10:08:51.401729   363 net.cpp:380] _plus4 -> _plus4
+I1213 10:08:51.401753   363 net.cpp:122] Setting up _plus4
+I1213 10:08:51.401760   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401763   363 net.cpp:137] Memory required for data: 3950080192
+I1213 10:08:51.401767   363 layer_factory.hpp:77] Creating layer _plus4__plus4_0_split
+I1213 10:08:51.401772   363 net.cpp:84] Creating Layer _plus4__plus4_0_split
+I1213 10:08:51.401777   363 net.cpp:406] _plus4__plus4_0_split <- _plus4
+I1213 10:08:51.401782   363 net.cpp:380] _plus4__plus4_0_split -> _plus4__plus4_0_split_0
+I1213 10:08:51.401789   363 net.cpp:380] _plus4__plus4_0_split -> _plus4__plus4_0_split_1
+I1213 10:08:51.401841   363 net.cpp:122] Setting up _plus4__plus4_0_split
+I1213 10:08:51.401849   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401855   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.401859   363 net.cpp:137] Memory required for data: 3970560192
+I1213 10:08:51.401863   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1
+I1213 10:08:51.401870   363 net.cpp:84] Creating Layer stage3_unit2_bn1
+I1213 10:08:51.401873   363 net.cpp:406] stage3_unit2_bn1 <- _plus4__plus4_0_split_0
+I1213 10:08:51.401881   363 net.cpp:380] stage3_unit2_bn1 -> stage3_unit2_bn1
+I1213 10:08:51.402073   363 net.cpp:122] Setting up stage3_unit2_bn1
+I1213 10:08:51.402081   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.402086   363 net.cpp:137] Memory required for data: 3980800192
+I1213 10:08:51.402093   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1_scale
+I1213 10:08:51.402101   363 net.cpp:84] Creating Layer stage3_unit2_bn1_scale
+I1213 10:08:51.402107   363 net.cpp:406] stage3_unit2_bn1_scale <- stage3_unit2_bn1
+I1213 10:08:51.402112   363 net.cpp:367] stage3_unit2_bn1_scale -> stage3_unit2_bn1 (in-place)
+I1213 10:08:51.402150   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn1_scale
+I1213 10:08:51.402254   363 net.cpp:122] Setting up stage3_unit2_bn1_scale
+I1213 10:08:51.402262   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.402266   363 net.cpp:137] Memory required for data: 3991040192
+I1213 10:08:51.402273   363 layer_factory.hpp:77] Creating layer stage3_unit2_conv1
+I1213 10:08:51.402283   363 net.cpp:84] Creating Layer stage3_unit2_conv1
+I1213 10:08:51.402288   363 net.cpp:406] stage3_unit2_conv1 <- stage3_unit2_bn1
+I1213 10:08:51.402297   363 net.cpp:380] stage3_unit2_conv1 -> stage3_unit2_conv1
+I1213 10:08:51.409770   363 net.cpp:122] Setting up stage3_unit2_conv1
+I1213 10:08:51.409785   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.409788   363 net.cpp:137] Memory required for data: 4001280192
+I1213 10:08:51.409795   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2
+I1213 10:08:51.409816   363 net.cpp:84] Creating Layer stage3_unit2_bn2
+I1213 10:08:51.409821   363 net.cpp:406] stage3_unit2_bn2 <- stage3_unit2_conv1
+I1213 10:08:51.409827   363 net.cpp:380] stage3_unit2_bn2 -> stage3_unit2_bn2
+I1213 10:08:51.410025   363 net.cpp:122] Setting up stage3_unit2_bn2
+I1213 10:08:51.410033   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.410038   363 net.cpp:137] Memory required for data: 4011520192
+I1213 10:08:51.410046   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2_scale
+I1213 10:08:51.410054   363 net.cpp:84] Creating Layer stage3_unit2_bn2_scale
+I1213 10:08:51.410059   363 net.cpp:406] stage3_unit2_bn2_scale <- stage3_unit2_bn2
+I1213 10:08:51.410065   363 net.cpp:367] stage3_unit2_bn2_scale -> stage3_unit2_bn2 (in-place)
+I1213 10:08:51.410104   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn2_scale
+I1213 10:08:51.410210   363 net.cpp:122] Setting up stage3_unit2_bn2_scale
+I1213 10:08:51.410218   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.410223   363 net.cpp:137] Memory required for data: 4021760192
+I1213 10:08:51.410229   363 layer_factory.hpp:77] Creating layer stage3_unit2_relu1
+I1213 10:08:51.410235   363 net.cpp:84] Creating Layer stage3_unit2_relu1
+I1213 10:08:51.410239   363 net.cpp:406] stage3_unit2_relu1 <- stage3_unit2_bn2
+I1213 10:08:51.410248   363 net.cpp:380] stage3_unit2_relu1 -> stage3_unit2_relu1
+I1213 10:08:51.410590   363 net.cpp:122] Setting up stage3_unit2_relu1
+I1213 10:08:51.410610   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.410615   363 net.cpp:137] Memory required for data: 4032000192
+I1213 10:08:51.410636   363 layer_factory.hpp:77] Creating layer stage3_unit2_conv2
+I1213 10:08:51.410650   363 net.cpp:84] Creating Layer stage3_unit2_conv2
+I1213 10:08:51.410660   363 net.cpp:406] stage3_unit2_conv2 <- stage3_unit2_relu1
+I1213 10:08:51.410668   363 net.cpp:380] stage3_unit2_conv2 -> stage3_unit2_conv2
+I1213 10:08:51.420126   363 net.cpp:122] Setting up stage3_unit2_conv2
+I1213 10:08:51.420163   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420168   363 net.cpp:137] Memory required for data: 4042240192
+I1213 10:08:51.420176   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3
+I1213 10:08:51.420202   363 net.cpp:84] Creating Layer stage3_unit2_bn3
+I1213 10:08:51.420208   363 net.cpp:406] stage3_unit2_bn3 <- stage3_unit2_conv2
+I1213 10:08:51.420217   363 net.cpp:380] stage3_unit2_bn3 -> stage3_unit2_bn3
+I1213 10:08:51.420428   363 net.cpp:122] Setting up stage3_unit2_bn3
+I1213 10:08:51.420435   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420439   363 net.cpp:137] Memory required for data: 4052480192
+I1213 10:08:51.420446   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3_scale
+I1213 10:08:51.420454   363 net.cpp:84] Creating Layer stage3_unit2_bn3_scale
+I1213 10:08:51.420459   363 net.cpp:406] stage3_unit2_bn3_scale <- stage3_unit2_bn3
+I1213 10:08:51.420465   363 net.cpp:367] stage3_unit2_bn3_scale -> stage3_unit2_bn3 (in-place)
+I1213 10:08:51.420506   363 layer_factory.hpp:77] Creating layer stage3_unit2_bn3_scale
+I1213 10:08:51.420609   363 net.cpp:122] Setting up stage3_unit2_bn3_scale
+I1213 10:08:51.420617   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420621   363 net.cpp:137] Memory required for data: 4062720192
+I1213 10:08:51.420629   363 layer_factory.hpp:77] Creating layer _plus5
+I1213 10:08:51.420635   363 net.cpp:84] Creating Layer _plus5
+I1213 10:08:51.420640   363 net.cpp:406] _plus5 <- stage3_unit2_bn3
+I1213 10:08:51.420645   363 net.cpp:406] _plus5 <- _plus4__plus4_0_split_1
+I1213 10:08:51.420652   363 net.cpp:380] _plus5 -> _plus5
+I1213 10:08:51.420677   363 net.cpp:122] Setting up _plus5
+I1213 10:08:51.420684   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420688   363 net.cpp:137] Memory required for data: 4072960192
+I1213 10:08:51.420691   363 layer_factory.hpp:77] Creating layer _plus5__plus5_0_split
+I1213 10:08:51.420697   363 net.cpp:84] Creating Layer _plus5__plus5_0_split
+I1213 10:08:51.420702   363 net.cpp:406] _plus5__plus5_0_split <- _plus5
+I1213 10:08:51.420709   363 net.cpp:380] _plus5__plus5_0_split -> _plus5__plus5_0_split_0
+I1213 10:08:51.420717   363 net.cpp:380] _plus5__plus5_0_split -> _plus5__plus5_0_split_1
+I1213 10:08:51.420751   363 net.cpp:122] Setting up _plus5__plus5_0_split
+I1213 10:08:51.420758   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420763   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420768   363 net.cpp:137] Memory required for data: 4093440192
+I1213 10:08:51.420771   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1
+I1213 10:08:51.420776   363 net.cpp:84] Creating Layer stage4_unit1_bn1
+I1213 10:08:51.420781   363 net.cpp:406] stage4_unit1_bn1 <- _plus5__plus5_0_split_0
+I1213 10:08:51.420789   363 net.cpp:380] stage4_unit1_bn1 -> stage4_unit1_bn1
+I1213 10:08:51.420974   363 net.cpp:122] Setting up stage4_unit1_bn1
+I1213 10:08:51.420981   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.420984   363 net.cpp:137] Memory required for data: 4103680192
+I1213 10:08:51.421002   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1_scale
+I1213 10:08:51.421011   363 net.cpp:84] Creating Layer stage4_unit1_bn1_scale
+I1213 10:08:51.421016   363 net.cpp:406] stage4_unit1_bn1_scale <- stage4_unit1_bn1
+I1213 10:08:51.421021   363 net.cpp:367] stage4_unit1_bn1_scale -> stage4_unit1_bn1 (in-place)
+I1213 10:08:51.421064   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn1_scale
+I1213 10:08:51.421169   363 net.cpp:122] Setting up stage4_unit1_bn1_scale
+I1213 10:08:51.421176   363 net.cpp:129] Top shape: 16 256 25 25 (2560000)
+I1213 10:08:51.421180   363 net.cpp:137] Memory required for data: 4113920192
+I1213 10:08:51.421185   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv1
+I1213 10:08:51.421196   363 net.cpp:84] Creating Layer stage4_unit1_conv1
+I1213 10:08:51.421201   363 net.cpp:406] stage4_unit1_conv1 <- stage4_unit1_bn1
+I1213 10:08:51.421209   363 net.cpp:380] stage4_unit1_conv1 -> stage4_unit1_conv1
+I1213 10:08:51.435492   363 net.cpp:122] Setting up stage4_unit1_conv1
+I1213 10:08:51.435519   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.435523   363 net.cpp:137] Memory required for data: 4134400192
+I1213 10:08:51.435552   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2
+I1213 10:08:51.435580   363 net.cpp:84] Creating Layer stage4_unit1_bn2
+I1213 10:08:51.435586   363 net.cpp:406] stage4_unit1_bn2 <- stage4_unit1_conv1
+I1213 10:08:51.435597   363 net.cpp:380] stage4_unit1_bn2 -> stage4_unit1_bn2
+I1213 10:08:51.435808   363 net.cpp:122] Setting up stage4_unit1_bn2
+I1213 10:08:51.435817   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.435820   363 net.cpp:137] Memory required for data: 4154880192
+I1213 10:08:51.435828   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2_scale
+I1213 10:08:51.435837   363 net.cpp:84] Creating Layer stage4_unit1_bn2_scale
+I1213 10:08:51.435842   363 net.cpp:406] stage4_unit1_bn2_scale <- stage4_unit1_bn2
+I1213 10:08:51.435847   363 net.cpp:367] stage4_unit1_bn2_scale -> stage4_unit1_bn2 (in-place)
+I1213 10:08:51.435891   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn2_scale
+I1213 10:08:51.435995   363 net.cpp:122] Setting up stage4_unit1_bn2_scale
+I1213 10:08:51.436002   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.436007   363 net.cpp:137] Memory required for data: 4175360192
+I1213 10:08:51.436013   363 layer_factory.hpp:77] Creating layer stage4_unit1_relu1
+I1213 10:08:51.436020   363 net.cpp:84] Creating Layer stage4_unit1_relu1
+I1213 10:08:51.436024   363 net.cpp:406] stage4_unit1_relu1 <- stage4_unit1_bn2
+I1213 10:08:51.436031   363 net.cpp:380] stage4_unit1_relu1 -> stage4_unit1_relu1
+I1213 10:08:51.436182   363 net.cpp:122] Setting up stage4_unit1_relu1
+I1213 10:08:51.436190   363 net.cpp:129] Top shape: 16 512 25 25 (5120000)
+I1213 10:08:51.436195   363 net.cpp:137] Memory required for data: 4195840192
+I1213 10:08:51.436198   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv2
+I1213 10:08:51.436213   363 net.cpp:84] Creating Layer stage4_unit1_conv2
+I1213 10:08:51.436218   363 net.cpp:406] stage4_unit1_conv2 <- stage4_unit1_relu1
+I1213 10:08:51.436224   363 net.cpp:380] stage4_unit1_conv2 -> stage4_unit1_conv2
+I1213 10:08:51.463555   363 net.cpp:122] Setting up stage4_unit1_conv2
+I1213 10:08:51.463599   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.463603   363 net.cpp:137] Memory required for data: 4201377984
+I1213 10:08:51.463615   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3
+I1213 10:08:51.463627   363 net.cpp:84] Creating Layer stage4_unit1_bn3
+I1213 10:08:51.463649   363 net.cpp:406] stage4_unit1_bn3 <- stage4_unit1_conv2
+I1213 10:08:51.463656   363 net.cpp:380] stage4_unit1_bn3 -> stage4_unit1_bn3
+I1213 10:08:51.463882   363 net.cpp:122] Setting up stage4_unit1_bn3
+I1213 10:08:51.463891   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.463896   363 net.cpp:137] Memory required for data: 4206915776
+I1213 10:08:51.463904   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3_scale
+I1213 10:08:51.463912   363 net.cpp:84] Creating Layer stage4_unit1_bn3_scale
+I1213 10:08:51.463923   363 net.cpp:406] stage4_unit1_bn3_scale <- stage4_unit1_bn3
+I1213 10:08:51.463948   363 net.cpp:367] stage4_unit1_bn3_scale -> stage4_unit1_bn3 (in-place)
+I1213 10:08:51.463996   363 layer_factory.hpp:77] Creating layer stage4_unit1_bn3_scale
+I1213 10:08:51.464103   363 net.cpp:122] Setting up stage4_unit1_bn3_scale
+I1213 10:08:51.464112   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.464115   363 net.cpp:137] Memory required for data: 4212453568
+I1213 10:08:51.464123   363 layer_factory.hpp:77] Creating layer stage4_unit1_conv1sc
+I1213 10:08:51.464136   363 net.cpp:84] Creating Layer stage4_unit1_conv1sc
+I1213 10:08:51.464141   363 net.cpp:406] stage4_unit1_conv1sc <- _plus5__plus5_0_split_1
+I1213 10:08:51.464167   363 net.cpp:380] stage4_unit1_conv1sc -> stage4_unit1_conv1sc
+I1213 10:08:51.465833   363 net.cpp:122] Setting up stage4_unit1_conv1sc
+I1213 10:08:51.465847   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.465867   363 net.cpp:137] Memory required for data: 4217991360
+I1213 10:08:51.465873   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc
+I1213 10:08:51.465880   363 net.cpp:84] Creating Layer stage4_unit1_sc
+I1213 10:08:51.465884   363 net.cpp:406] stage4_unit1_sc <- stage4_unit1_conv1sc
+I1213 10:08:51.465889   363 net.cpp:380] stage4_unit1_sc -> stage4_unit1_sc
+I1213 10:08:51.466109   363 net.cpp:122] Setting up stage4_unit1_sc
+I1213 10:08:51.466117   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466120   363 net.cpp:137] Memory required for data: 4223529152
+I1213 10:08:51.466140   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc_scale
+I1213 10:08:51.466148   363 net.cpp:84] Creating Layer stage4_unit1_sc_scale
+I1213 10:08:51.466152   363 net.cpp:406] stage4_unit1_sc_scale <- stage4_unit1_sc
+I1213 10:08:51.466157   363 net.cpp:367] stage4_unit1_sc_scale -> stage4_unit1_sc (in-place)
+I1213 10:08:51.466200   363 layer_factory.hpp:77] Creating layer stage4_unit1_sc_scale
+I1213 10:08:51.466308   363 net.cpp:122] Setting up stage4_unit1_sc_scale
+I1213 10:08:51.466316   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466320   363 net.cpp:137] Memory required for data: 4229066944
+I1213 10:08:51.466326   363 layer_factory.hpp:77] Creating layer _plus6
+I1213 10:08:51.466334   363 net.cpp:84] Creating Layer _plus6
+I1213 10:08:51.466339   363 net.cpp:406] _plus6 <- stage4_unit1_bn3
+I1213 10:08:51.466343   363 net.cpp:406] _plus6 <- stage4_unit1_sc
+I1213 10:08:51.466352   363 net.cpp:380] _plus6 -> _plus6
+I1213 10:08:51.466377   363 net.cpp:122] Setting up _plus6
+I1213 10:08:51.466384   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466387   363 net.cpp:137] Memory required for data: 4234604736
+I1213 10:08:51.466392   363 layer_factory.hpp:77] Creating layer _plus6__plus6_0_split
+I1213 10:08:51.466398   363 net.cpp:84] Creating Layer _plus6__plus6_0_split
+I1213 10:08:51.466401   363 net.cpp:406] _plus6__plus6_0_split <- _plus6
+I1213 10:08:51.466408   363 net.cpp:380] _plus6__plus6_0_split -> _plus6__plus6_0_split_0
+I1213 10:08:51.466415   363 net.cpp:380] _plus6__plus6_0_split -> _plus6__plus6_0_split_1
+I1213 10:08:51.466449   363 net.cpp:122] Setting up _plus6__plus6_0_split
+I1213 10:08:51.466455   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466460   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466464   363 net.cpp:137] Memory required for data: 4245680320
+I1213 10:08:51.466467   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1
+I1213 10:08:51.466475   363 net.cpp:84] Creating Layer stage4_unit2_bn1
+I1213 10:08:51.466478   363 net.cpp:406] stage4_unit2_bn1 <- _plus6__plus6_0_split_0
+I1213 10:08:51.466483   363 net.cpp:380] stage4_unit2_bn1 -> stage4_unit2_bn1
+I1213 10:08:51.466683   363 net.cpp:122] Setting up stage4_unit2_bn1
+I1213 10:08:51.466692   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466696   363 net.cpp:137] Memory required for data: 4251218112
+I1213 10:08:51.466704   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1_scale
+I1213 10:08:51.466714   363 net.cpp:84] Creating Layer stage4_unit2_bn1_scale
+I1213 10:08:51.466718   363 net.cpp:406] stage4_unit2_bn1_scale <- stage4_unit2_bn1
+I1213 10:08:51.466723   363 net.cpp:367] stage4_unit2_bn1_scale -> stage4_unit2_bn1 (in-place)
+I1213 10:08:51.466761   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn1_scale
+I1213 10:08:51.466867   363 net.cpp:122] Setting up stage4_unit2_bn1_scale
+I1213 10:08:51.466874   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.466878   363 net.cpp:137] Memory required for data: 4256755904
+I1213 10:08:51.466886   363 layer_factory.hpp:77] Creating layer stage4_unit2_conv1
+I1213 10:08:51.466897   363 net.cpp:84] Creating Layer stage4_unit2_conv1
+I1213 10:08:51.466902   363 net.cpp:406] stage4_unit2_conv1 <- stage4_unit2_bn1
+I1213 10:08:51.466910   363 net.cpp:380] stage4_unit2_conv1 -> stage4_unit2_conv1
+I1213 10:08:51.499392   363 net.cpp:122] Setting up stage4_unit2_conv1
+I1213 10:08:51.499440   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.499444   363 net.cpp:137] Memory required for data: 4262293696
+I1213 10:08:51.499459   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2
+I1213 10:08:51.499473   363 net.cpp:84] Creating Layer stage4_unit2_bn2
+I1213 10:08:51.499495   363 net.cpp:406] stage4_unit2_bn2 <- stage4_unit2_conv1
+I1213 10:08:51.499508   363 net.cpp:380] stage4_unit2_bn2 -> stage4_unit2_bn2
+I1213 10:08:51.499742   363 net.cpp:122] Setting up stage4_unit2_bn2
+I1213 10:08:51.499750   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.499754   363 net.cpp:137] Memory required for data: 4267831488
+I1213 10:08:51.499763   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2_scale
+I1213 10:08:51.499773   363 net.cpp:84] Creating Layer stage4_unit2_bn2_scale
+I1213 10:08:51.499778   363 net.cpp:406] stage4_unit2_bn2_scale <- stage4_unit2_bn2
+I1213 10:08:51.499785   363 net.cpp:367] stage4_unit2_bn2_scale -> stage4_unit2_bn2 (in-place)
+I1213 10:08:51.499828   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn2_scale
+I1213 10:08:51.499941   363 net.cpp:122] Setting up stage4_unit2_bn2_scale
+I1213 10:08:51.499948   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.499953   363 net.cpp:137] Memory required for data: 4273369280
+I1213 10:08:51.499958   363 layer_factory.hpp:77] Creating layer stage4_unit2_relu1
+I1213 10:08:51.499966   363 net.cpp:84] Creating Layer stage4_unit2_relu1
+I1213 10:08:51.499970   363 net.cpp:406] stage4_unit2_relu1 <- stage4_unit2_bn2
+I1213 10:08:51.499975   363 net.cpp:380] stage4_unit2_relu1 -> stage4_unit2_relu1
+I1213 10:08:51.500594   363 net.cpp:122] Setting up stage4_unit2_relu1
+I1213 10:08:51.500608   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.500627   363 net.cpp:137] Memory required for data: 4278907072
+I1213 10:08:51.500633   363 layer_factory.hpp:77] Creating layer stage4_unit2_conv2
+I1213 10:08:51.500661   363 net.cpp:84] Creating Layer stage4_unit2_conv2
+I1213 10:08:51.500665   363 net.cpp:406] stage4_unit2_conv2 <- stage4_unit2_relu1
+I1213 10:08:51.500689   363 net.cpp:380] stage4_unit2_conv2 -> stage4_unit2_conv2
+I1213 10:08:51.528412   363 net.cpp:122] Setting up stage4_unit2_conv2
+I1213 10:08:51.528460   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.528463   363 net.cpp:137] Memory required for data: 4284444864
+I1213 10:08:51.528476   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3
+I1213 10:08:51.528489   363 net.cpp:84] Creating Layer stage4_unit2_bn3
+I1213 10:08:51.528511   363 net.cpp:406] stage4_unit2_bn3 <- stage4_unit2_conv2
+I1213 10:08:51.528518   363 net.cpp:380] stage4_unit2_bn3 -> stage4_unit2_bn3
+I1213 10:08:51.528735   363 net.cpp:122] Setting up stage4_unit2_bn3
+I1213 10:08:51.528744   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.528748   363 net.cpp:137] Memory required for data: 4289982656
+I1213 10:08:51.528755   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3_scale
+I1213 10:08:51.528764   363 net.cpp:84] Creating Layer stage4_unit2_bn3_scale
+I1213 10:08:51.528769   363 net.cpp:406] stage4_unit2_bn3_scale <- stage4_unit2_bn3
+I1213 10:08:51.528774   363 net.cpp:367] stage4_unit2_bn3_scale -> stage4_unit2_bn3 (in-place)
+I1213 10:08:51.528820   363 layer_factory.hpp:77] Creating layer stage4_unit2_bn3_scale
+I1213 10:08:51.528935   363 net.cpp:122] Setting up stage4_unit2_bn3_scale
+I1213 10:08:51.528944   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.528946   363 net.cpp:137] Memory required for data: 4295520448
+I1213 10:08:51.528952   363 layer_factory.hpp:77] Creating layer _plus7
+I1213 10:08:51.528961   363 net.cpp:84] Creating Layer _plus7
+I1213 10:08:51.528966   363 net.cpp:406] _plus7 <- stage4_unit2_bn3
+I1213 10:08:51.528972   363 net.cpp:406] _plus7 <- _plus6__plus6_0_split_1
+I1213 10:08:51.528977   363 net.cpp:380] _plus7 -> _plus7
+I1213 10:08:51.529001   363 net.cpp:122] Setting up _plus7
+I1213 10:08:51.529008   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.529011   363 net.cpp:137] Memory required for data: 4301058240
+I1213 10:08:51.529016   363 layer_factory.hpp:77] Creating layer bn1
+I1213 10:08:51.529022   363 net.cpp:84] Creating Layer bn1
+I1213 10:08:51.529026   363 net.cpp:406] bn1 <- _plus7
+I1213 10:08:51.529031   363 net.cpp:380] bn1 -> bn1
+I1213 10:08:51.529211   363 net.cpp:122] Setting up bn1
+I1213 10:08:51.529218   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.529222   363 net.cpp:137] Memory required for data: 4306596032
+I1213 10:08:51.529229   363 layer_factory.hpp:77] Creating layer bn1_scale
+I1213 10:08:51.529235   363 net.cpp:84] Creating Layer bn1_scale
+I1213 10:08:51.529238   363 net.cpp:406] bn1_scale <- bn1
+I1213 10:08:51.529245   363 net.cpp:367] bn1_scale -> bn1 (in-place)
+I1213 10:08:51.529278   363 layer_factory.hpp:77] Creating layer bn1_scale
+I1213 10:08:51.529381   363 net.cpp:122] Setting up bn1_scale
+I1213 10:08:51.529387   363 net.cpp:129] Top shape: 16 512 13 13 (1384448)
+I1213 10:08:51.529392   363 net.cpp:137] Memory required for data: 4312133824
+I1213 10:08:51.529397   363 layer_factory.hpp:77] Creating layer fc8
+I1213 10:08:51.529410   363 net.cpp:84] Creating Layer fc8
+I1213 10:08:51.529413   363 net.cpp:406] fc8 <- bn1
+I1213 10:08:51.529422   363 net.cpp:380] fc8 -> fc8
+I1213 10:08:51.532542   363 net.cpp:122] Setting up fc8
+I1213 10:08:51.532557   363 net.cpp:129] Top shape: 16 2 (32)
+I1213 10:08:51.532559   363 net.cpp:137] Memory required for data: 4312133952
+I1213 10:08:51.532567   363 layer_factory.hpp:77] Creating layer fc8_fc8_0_split
+I1213 10:08:51.532574   363 net.cpp:84] Creating Layer fc8_fc8_0_split
+I1213 10:08:51.532580   363 net.cpp:406] fc8_fc8_0_split <- fc8
+I1213 10:08:51.532588   363 net.cpp:380] fc8_fc8_0_split -> fc8_fc8_0_split_0
+I1213 10:08:51.532595   363 net.cpp:380] fc8_fc8_0_split -> fc8_fc8_0_split_1
+I1213 10:08:51.532634   363 net.cpp:122] Setting up fc8_fc8_0_split
+I1213 10:08:51.532641   363 net.cpp:129] Top shape: 16 2 (32)
+I1213 10:08:51.532645   363 net.cpp:129] Top shape: 16 2 (32)
+I1213 10:08:51.532649   363 net.cpp:137] Memory required for data: 4312134208
+I1213 10:08:51.532652   363 layer_factory.hpp:77] Creating layer accuracy
+I1213 10:08:51.532658   363 net.cpp:84] Creating Layer accuracy
+I1213 10:08:51.532662   363 net.cpp:406] accuracy <- fc8_fc8_0_split_0
+I1213 10:08:51.532667   363 net.cpp:406] accuracy <- label_data_1_split_0
+I1213 10:08:51.532675   363 net.cpp:380] accuracy -> accuracy
+I1213 10:08:51.532682   363 net.cpp:122] Setting up accuracy
+I1213 10:08:51.532687   363 net.cpp:129] Top shape: (1)
+I1213 10:08:51.532691   363 net.cpp:137] Memory required for data: 4312134212
+I1213 10:08:51.532694   363 layer_factory.hpp:77] Creating layer loss
+I1213 10:08:51.532701   363 net.cpp:84] Creating Layer loss
+I1213 10:08:51.532703   363 net.cpp:406] loss <- fc8_fc8_0_split_1
+I1213 10:08:51.532708   363 net.cpp:406] loss <- label_data_1_split_1
+I1213 10:08:51.532716   363 net.cpp:380] loss -> loss
+I1213 10:08:51.532727   363 layer_factory.hpp:77] Creating layer loss
+I1213 10:08:51.532930   363 weighted_softmax_loss_layer.cpp:25] mult: 5, id: 1
+I1213 10:08:51.532974   363 net.cpp:122] Setting up loss
+I1213 10:08:51.532981   363 net.cpp:129] Top shape: (1)
+I1213 10:08:51.532984   363 net.cpp:132]     with loss weight 1
+I1213 10:08:51.532989   363 net.cpp:137] Memory required for data: 4312134216
+I1213 10:08:51.532992   363 net.cpp:198] loss needs backward computation.
+I1213 10:08:51.532999   363 net.cpp:200] accuracy does not need backward computation.
+I1213 10:08:51.533004   363 net.cpp:198] fc8_fc8_0_split needs backward computation.
+I1213 10:08:51.533006   363 net.cpp:198] fc8 needs backward computation.
+I1213 10:08:51.533010   363 net.cpp:198] bn1_scale needs backward computation.
+I1213 10:08:51.533013   363 net.cpp:198] bn1 needs backward computation.
+I1213 10:08:51.533016   363 net.cpp:198] _plus7 needs backward computation.
+I1213 10:08:51.533020   363 net.cpp:198] stage4_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.533023   363 net.cpp:198] stage4_unit2_bn3 needs backward computation.
+I1213 10:08:51.533027   363 net.cpp:198] stage4_unit2_conv2 needs backward computation.
+I1213 10:08:51.533032   363 net.cpp:198] stage4_unit2_relu1 needs backward computation.
+I1213 10:08:51.533035   363 net.cpp:198] stage4_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.533040   363 net.cpp:198] stage4_unit2_bn2 needs backward computation.
+I1213 10:08:51.533043   363 net.cpp:198] stage4_unit2_conv1 needs backward computation.
+I1213 10:08:51.533046   363 net.cpp:198] stage4_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.533051   363 net.cpp:198] stage4_unit2_bn1 needs backward computation.
+I1213 10:08:51.533054   363 net.cpp:198] _plus6__plus6_0_split needs backward computation.
+I1213 10:08:51.533057   363 net.cpp:198] _plus6 needs backward computation.
+I1213 10:08:51.533062   363 net.cpp:198] stage4_unit1_sc_scale needs backward computation.
+I1213 10:08:51.533066   363 net.cpp:198] stage4_unit1_sc needs backward computation.
+I1213 10:08:51.533071   363 net.cpp:198] stage4_unit1_conv1sc needs backward computation.
+I1213 10:08:51.533074   363 net.cpp:198] stage4_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.533077   363 net.cpp:198] stage4_unit1_bn3 needs backward computation.
+I1213 10:08:51.533082   363 net.cpp:198] stage4_unit1_conv2 needs backward computation.
+I1213 10:08:51.533085   363 net.cpp:198] stage4_unit1_relu1 needs backward computation.
+I1213 10:08:51.533088   363 net.cpp:198] stage4_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.533092   363 net.cpp:198] stage4_unit1_bn2 needs backward computation.
+I1213 10:08:51.533095   363 net.cpp:198] stage4_unit1_conv1 needs backward computation.
+I1213 10:08:51.533099   363 net.cpp:198] stage4_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.533103   363 net.cpp:198] stage4_unit1_bn1 needs backward computation.
+I1213 10:08:51.533107   363 net.cpp:198] _plus5__plus5_0_split needs backward computation.
+I1213 10:08:51.533110   363 net.cpp:198] _plus5 needs backward computation.
+I1213 10:08:51.533116   363 net.cpp:198] stage3_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.533120   363 net.cpp:198] stage3_unit2_bn3 needs backward computation.
+I1213 10:08:51.533123   363 net.cpp:198] stage3_unit2_conv2 needs backward computation.
+I1213 10:08:51.533128   363 net.cpp:198] stage3_unit2_relu1 needs backward computation.
+I1213 10:08:51.533131   363 net.cpp:198] stage3_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.533134   363 net.cpp:198] stage3_unit2_bn2 needs backward computation.
+I1213 10:08:51.533138   363 net.cpp:198] stage3_unit2_conv1 needs backward computation.
+I1213 10:08:51.533141   363 net.cpp:198] stage3_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.533145   363 net.cpp:198] stage3_unit2_bn1 needs backward computation.
+I1213 10:08:51.533149   363 net.cpp:198] _plus4__plus4_0_split needs backward computation.
+I1213 10:08:51.533154   363 net.cpp:198] _plus4 needs backward computation.
+I1213 10:08:51.533157   363 net.cpp:198] stage3_unit1_sc_scale needs backward computation.
+I1213 10:08:51.533161   363 net.cpp:198] stage3_unit1_sc needs backward computation.
+I1213 10:08:51.533165   363 net.cpp:198] stage3_unit1_conv1sc needs backward computation.
+I1213 10:08:51.533169   363 net.cpp:198] stage3_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.533172   363 net.cpp:198] stage3_unit1_bn3 needs backward computation.
+I1213 10:08:51.533176   363 net.cpp:198] stage3_unit1_conv2 needs backward computation.
+I1213 10:08:51.533180   363 net.cpp:198] stage3_unit1_relu1 needs backward computation.
+I1213 10:08:51.533185   363 net.cpp:198] stage3_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.533187   363 net.cpp:198] stage3_unit1_bn2 needs backward computation.
+I1213 10:08:51.533191   363 net.cpp:198] stage3_unit1_conv1 needs backward computation.
+I1213 10:08:51.533195   363 net.cpp:198] stage3_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.533198   363 net.cpp:198] stage3_unit1_bn1 needs backward computation.
+I1213 10:08:51.533202   363 net.cpp:198] _plus3__plus3_0_split needs backward computation.
+I1213 10:08:51.533205   363 net.cpp:198] _plus3 needs backward computation.
+I1213 10:08:51.533211   363 net.cpp:198] stage2_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.533215   363 net.cpp:198] stage2_unit2_bn3 needs backward computation.
+I1213 10:08:51.533218   363 net.cpp:198] stage2_unit2_conv2 needs backward computation.
+I1213 10:08:51.533222   363 net.cpp:198] stage2_unit2_relu1 needs backward computation.
+I1213 10:08:51.533226   363 net.cpp:198] stage2_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.533229   363 net.cpp:198] stage2_unit2_bn2 needs backward computation.
+I1213 10:08:51.533233   363 net.cpp:198] stage2_unit2_conv1 needs backward computation.
+I1213 10:08:51.533236   363 net.cpp:198] stage2_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.533241   363 net.cpp:198] stage2_unit2_bn1 needs backward computation.
+I1213 10:08:51.533244   363 net.cpp:198] _plus2__plus2_0_split needs backward computation.
+I1213 10:08:51.533247   363 net.cpp:198] _plus2 needs backward computation.
+I1213 10:08:51.533252   363 net.cpp:198] stage2_unit1_sc_scale needs backward computation.
+I1213 10:08:51.533255   363 net.cpp:198] stage2_unit1_sc needs backward computation.
+I1213 10:08:51.533258   363 net.cpp:198] stage2_unit1_conv1sc needs backward computation.
+I1213 10:08:51.533262   363 net.cpp:198] stage2_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.533267   363 net.cpp:198] stage2_unit1_bn3 needs backward computation.
+I1213 10:08:51.533269   363 net.cpp:198] stage2_unit1_conv2 needs backward computation.
+I1213 10:08:51.533273   363 net.cpp:198] stage2_unit1_relu1 needs backward computation.
+I1213 10:08:51.533277   363 net.cpp:198] stage2_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.533280   363 net.cpp:198] stage2_unit1_bn2 needs backward computation.
+I1213 10:08:51.533284   363 net.cpp:198] stage2_unit1_conv1 needs backward computation.
+I1213 10:08:51.533288   363 net.cpp:198] stage2_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.533293   363 net.cpp:198] stage2_unit1_bn1 needs backward computation.
+I1213 10:08:51.533298   363 net.cpp:198] _plus1__plus1_0_split needs backward computation.
+I1213 10:08:51.533300   363 net.cpp:198] _plus1 needs backward computation.
+I1213 10:08:51.533304   363 net.cpp:198] stage1_unit2_bn3_scale needs backward computation.
+I1213 10:08:51.533308   363 net.cpp:198] stage1_unit2_bn3 needs backward computation.
+I1213 10:08:51.533313   363 net.cpp:198] stage1_unit2_conv2 needs backward computation.
+I1213 10:08:51.533315   363 net.cpp:198] stage1_unit2_relu1 needs backward computation.
+I1213 10:08:51.533319   363 net.cpp:198] stage1_unit2_bn2_scale needs backward computation.
+I1213 10:08:51.533322   363 net.cpp:198] stage1_unit2_bn2 needs backward computation.
+I1213 10:08:51.533327   363 net.cpp:198] stage1_unit2_conv1 needs backward computation.
+I1213 10:08:51.533330   363 net.cpp:198] stage1_unit2_bn1_scale needs backward computation.
+I1213 10:08:51.533334   363 net.cpp:198] stage1_unit2_bn1 needs backward computation.
+I1213 10:08:51.533337   363 net.cpp:198] _plus0__plus0_0_split needs backward computation.
+I1213 10:08:51.533341   363 net.cpp:198] _plus0 needs backward computation.
+I1213 10:08:51.533345   363 net.cpp:198] stage1_unit1_sc_scale needs backward computation.
+I1213 10:08:51.533349   363 net.cpp:198] stage1_unit1_sc needs backward computation.
+I1213 10:08:51.533352   363 net.cpp:198] stage1_unit1_conv1sc needs backward computation.
+I1213 10:08:51.533356   363 net.cpp:198] stage1_unit1_bn3_scale needs backward computation.
+I1213 10:08:51.533360   363 net.cpp:198] stage1_unit1_bn3 needs backward computation.
+I1213 10:08:51.533363   363 net.cpp:198] stage1_unit1_conv2 needs backward computation.
+I1213 10:08:51.533366   363 net.cpp:198] stage1_unit1_relu1 needs backward computation.
+I1213 10:08:51.533370   363 net.cpp:198] stage1_unit1_bn2_scale needs backward computation.
+I1213 10:08:51.533375   363 net.cpp:198] stage1_unit1_bn2 needs backward computation.
+I1213 10:08:51.533377   363 net.cpp:198] stage1_unit1_conv1 needs backward computation.
+I1213 10:08:51.533381   363 net.cpp:198] stage1_unit1_bn1_scale needs backward computation.
+I1213 10:08:51.533385   363 net.cpp:198] stage1_unit1_bn1 needs backward computation.
+I1213 10:08:51.533390   363 net.cpp:198] relu0_relu0_0_split needs backward computation.
+I1213 10:08:51.533393   363 net.cpp:198] relu0 needs backward computation.
+I1213 10:08:51.533398   363 net.cpp:198] bn0_scale needs backward computation.
+I1213 10:08:51.533401   363 net.cpp:198] bn0 needs backward computation.
+I1213 10:08:51.533406   363 net.cpp:198] conv0 needs backward computation.
+I1213 10:08:51.533409   363 net.cpp:200] label_data_1_split does not need backward computation.
+I1213 10:08:51.533416   363 net.cpp:200] data does not need backward computation.
+I1213 10:08:51.533418   363 net.cpp:242] This network produces output accuracy
+I1213 10:08:51.533422   363 net.cpp:242] This network produces output loss
+I1213 10:08:51.533504   363 net.cpp:255] Network initialization done.
+I1213 10:08:51.533887   363 solver.cpp:56] Solver scaffolding done.
+I1213 10:08:51.539650   363 caffe.cpp:248] Starting Optimization
+I1213 10:08:51.539664   363 solver.cpp:272] Solving 
+I1213 10:08:51.539683   363 solver.cpp:273] Learning Rate Policy: multistep
+I1213 10:08:51.544325   363 solver.cpp:330] Iteration 0, Testing net (#0)
+I1213 10:09:14.600720   363 solver.cpp:397]     Test net output #0: accuracy = 0.567204
+I1213 10:09:14.600787   363 solver.cpp:397]     Test net output #1: loss = 1.48678 (* 1 = 1.48678 loss)
+F1213 10:09:14.704103   363 syncedmem.cpp:71] Check failed: error == cudaSuccess (2 vs. 0)  out of memory
+*** Check failure stack trace: ***
+    @     0x7f4db0a9b5cd  google::LogMessage::Fail()
+    @     0x7f4db0a9d433  google::LogMessage::SendToLog()
+    @     0x7f4db0a9b15b  google::LogMessage::Flush()
+    @     0x7f4db0a9de1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f4db122f9e8  caffe::SyncedMemory::mutable_gpu_data()
+    @     0x7f4db10f5212  caffe::Blob<>::mutable_gpu_data()
+    @     0x7f4db1296560  caffe::ConvolutionLayer<>::Forward_gpu()
+    @     0x7f4db126e3f1  caffe::Net<>::ForwardFromTo()
+    @     0x7f4db126e4f7  caffe::Net<>::Forward()
+    @     0x7f4db1239598  caffe::Solver<>::Step()
+    @     0x7f4db123a0ba  caffe::Solver<>::Solve()
+    @           0x40af69  train()
+    @           0x4076f4  main
+    @     0x7f4daf6de830  __libc_start_main
+    @           0x408009  _start
+    @              (nil)  (unknown)
